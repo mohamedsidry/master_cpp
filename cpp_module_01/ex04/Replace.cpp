@@ -12,8 +12,9 @@ void Replace::fileReplace(const std::string& file, const std::string& target, co
     std::ifstream in;
     std::ofstream out;
     std::string line;
-    in.open(file);
-    out.open(file + ".replace");
+    std::string outfile =  file + ".replace";
+    in.open(file.c_str());
+    out.open(outfile.c_str());
     if (!in || !out)
         return;
     while (std::getline(in, line))

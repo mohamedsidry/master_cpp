@@ -16,6 +16,7 @@ class Validator
     public:
         static void validateParamCount(int argc);
         static bool isValidParamCount(int argc);
+        static bool isValidTargetStr(const char *str);
         static bool isValidIO(const char *file);
         template <typename T>
         static void validateFileStream(const std::string& file)
@@ -24,7 +25,7 @@ class Validator
             fstr.exceptions(T::failbit | T::badbit);
             try
             {
-                fstr.open(file);
+                fstr.open(file.c_str());
             }
             catch(const std::ios_base::failure& e)
             {

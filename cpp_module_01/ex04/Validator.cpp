@@ -1,6 +1,16 @@
 #include "Validator.hpp"
 
 
+bool Validator::validate(int argc, char *argv[])
+{
+    if (!isValidParamCount(argc))
+        return (false);
+    if (!isValidTargetStr(argv[2]))
+        return (false);
+    if (!isValidIO(argv[1]))
+        return (false);
+    return (true);
+}
 bool Validator::isValidParamCount(int argc)
 {
     try
@@ -17,7 +27,17 @@ bool Validator::isValidParamCount(int argc)
 void Validator::validateParamCount(int argc)
 {
     if (argc != _paramCount)
-        throw std::invalid_argument( "Expected " + std::to_string(_paramCount) + " parameters, but got " + std::to_string(argc) + " .");
+        throw std::invalid_argument( "Unexpected number of parameters : Expected (3) -> 'file' 'string to be replaced' 'new string'.");
+}
+
+bool Validator::isValidTargetStr(const char *str)
+{
+    if (!(*str))
+    {
+        std::cerr << "Error : " << "String to be replaced must be a valid string !"  << std::endl;
+        return (false);
+    }
+    return (true);
 }
 bool  Validator::isValidIO(const char *file)
 {
@@ -36,11 +56,4 @@ bool  Validator::isValidIO(const char *file)
     }
 }
 
-bool Validator::validate(int argc, char *argv[])
-{
-    if (!isValidParamCount(argc))
-        return (false);
-    if (!isValidIO(argv[1]))
-        return (false);
-    return (true);
-}
+
