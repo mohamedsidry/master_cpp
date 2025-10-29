@@ -1,3 +1,4 @@
+#include <iostream>
 #include "HumanA.hpp"
 
 
