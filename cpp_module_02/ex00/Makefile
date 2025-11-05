@@ -16,7 +16,7 @@ all : $(NAME)
 
 $(NAME) : $(CXXOBJS)
 	@echo "linking" $@
-	$(CXX) $(CXXVERSION) $(CXXFLAGS) $(CXXOBJS) -o $@
+	@$(CXX) $(CXXVERSION) $(CXXFLAGS) $(CXXOBJS) -o $@
 
 
 RM = rm
@@ -38,7 +38,7 @@ re : clean all
 
 %.o : %.cpp $(CXXHEADERS)
 	@echo "compile" $<
-	$(CXX) $(CXXVERSION) $(CXXFLAGS) $(CXXSTAGE) $< -o $@
+	@$(CXX) $(CXXVERSION) $(CXXFLAGS) $(CXXSTAGE) $< -o $@
 
 
 run : $(NAME)
