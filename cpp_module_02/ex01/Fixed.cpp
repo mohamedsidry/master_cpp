@@ -1,7 +1,6 @@
 
 #include "Fixed.hpp"
 
-#define UNBASE(a)((a) > 127 ? (a) - 127 : - ((a) - 127))
 
 Fixed::Fixed():
 fixedPoint(0)
@@ -23,42 +22,55 @@ Fixed::Fixed(const Fixed& other)
 
 Fixed::Fixed(const float nbr)
 {
-    int fixedValue = 0;
     announce("float constructor called");
-    unsigned int sign = getFloatSign(nbr);
-    unsigned int exponent = getFloatExponent(nbr);
-    unsigned int mantisaa = getFloatMantisaa(nbr);
-    if (exponent > 127)
-    {
-        int mp;
-        mp = EXPO(exponent);
-        for (int i = 0 ; i < mp ; i++)
-        {
-            fixedPoint = 
-        }
-    }
+    fixedPoint = static_cast<int>(roundf(nbr * (1U << bitsFract)));
+}
 
 
-    fixedPoint = fixedValue;
-    //union rawBits {float f;unsigned int u;};
-    // rawBits raw;
-    // raw.f = nbr;
-    // std::cout << "Raw bits     : ";
-    // Fixed::showRawBits(raw.u, 32) << std::endl;
-    // std::cout << "raw Sign     : ";
-    // Fixed::showRawBits(getFloatSign(nbr), 32) << std::endl;
-    // std::cout << "raw Exponent : ";
-    // Fixed::showRawBits(getFloatExponent(nbr), 32) << std::endl;
-    // std::cout << "raw Mantisaa : ";
-    // Fixed::showRawBits(getFloatMantisaa(nbr), 32) << std::endl;
-    // std::cout << "int cast number : " << raw.u << std::endl;
-    // std::cout << "float cast number : " << raw.f << std::endl;
 
+// OPERATORES
+Fixed& Fixed::operator=(const Fixed& other)
+{
+    announce("Copy assignment operator called");
+    if (this != &other)
+        this->fixedPoint = other.fixedPoint;
+    return *this;
+}
+
+
+Fixed::~Fixed()
+{
+    announce("Destructor called");
 }
 
 
 
 
+// MEMBER METHODES 
+
+
+int Fixed::toInt(void) const
+{
+    return (fixedPoint >> bitsFract);
+}
+
+float Fixed::toFloat(void) const
+{
+    return (static_cast<float>(fixedPoint) / (1U << bitsFract));
+}
+
+
+std::ostream& operator<<(std::ostream& os, const Fixed& obj)
+{
+    os << obj.toFloat();
+    return os;
+}
+
+
+void Fixed::announce(const std::string& message) const
+{
+    std::cout << message << std::endl;
+}
 /**
  * getSign: get the sign of float number positive or negative .
  * desc : take float number stor it in union shift it by 31 so the most sig bit bacome less sig bit
@@ -103,13 +115,21 @@ unsigned int Fixed::getFloatExponent(float num)
     return exponent >> 24 & 0xFF;
 }
 
+/**
+ * 
+ * getFloatMantisaa: get the mantisaa part of float number .
+ * desc : take float number stor it in union shift it by sign bit + exponent bits and
+ *        shift back to get the manti part . 
+ * arg: num float number !
+ * return: ether {0...2^23}.
+ */
 unsigned int Fixed::getFloatMantisaa(float num)
 {
     union rawBits {float f;unsigned int u;};
     rawBits raw;
     raw.f = num;
-    unsigned int exponent = raw.u << 9;
-    return exponent >> 9 & ~0;
+    unsigned int mantisaa = raw.u << 9;
+    return mantisaa >> 9;
 }
 
 /**
@@ -132,39 +152,6 @@ std::ostream& Fixed::showRawBits(unsigned int nbr, size_t len)
 
 
 
-// MEMBER METHODES 
-
-
-int Fixed::toInt(void) const
-{
-    return (fixedPoint >> bitsFract);
-}
-
-float Fixed::toFloat(void) const
-{
-    return (0.5);
-}
-
-// OPERATORES
-Fixed& Fixed::operator=(const Fixed& other)
-{
-    announce("Copy assignment operator called");
-    if (this != &other)
-        this->fixedPoint = other.fixedPoint;
-    return *this;
-}
-
-std::ostream& operator<<(std::ostream& os, const Fixed& obj)
-{
-    os << obj.getRawBits();
-    return os;
-}
-// std::ostream& operator<<(std::ostream& os, const Fixed& obj) const
-// {
-//     os << ;
-// }
-
-
 // GETTERS && SETTERS 
 
 int Fixed::getRawBits(void) const
@@ -174,18 +161,8 @@ int Fixed::getRawBits(void) const
 }
 void  Fixed::setRawBits(const int raw)
 {
+    //announce("setRawBits member function called");
     fixedPoint = raw;
-    announce("setRawBits member function called");
 }
 
 
-Fixed::~Fixed()
-{
-    announce("Destructor called");
-}
-
-
-void Fixed::announce(const std::string& message) const
-{
-    std::cout << message << std::endl;
-}
