@@ -19,17 +19,6 @@ class Fixed
 
         // OPERATORS
         Fixed& operator=(const Fixed& other);
-        friend std::ostream& operator<<(std::ostream& os, const Fixed& obj);
-        friend bool operator>(const Fixed& fp1, const Fixed& fp2);
-        friend bool operator>=(const Fixed& fp1, const Fixed& fp2);
-        friend bool operator<(const Fixed& fp1, const Fixed& fp2);
-        friend bool operator<=(const Fixed& fp1, const Fixed& fp2);
-        friend bool operator==(const Fixed& fp1, const Fixed& fp2);
-        friend bool operator!=(const Fixed& fp1, const Fixed& fp2);
-        friend Fixed  operator*(const Fixed& fp1, const Fixed& fp2);
-        friend Fixed  operator/(const Fixed& fp1, const Fixed& fp2);
-        friend Fixed  operator+(const Fixed& fp1, const Fixed& fp2);
-        friend Fixed  operator-(const Fixed& fp1, const Fixed& fp2);
         Fixed& operator++();
         Fixed& operator--();
         Fixed operator++(int);
@@ -42,6 +31,7 @@ class Fixed
         static Fixed& max(Fixed& fp1, Fixed& fp2);
         static const Fixed& min(const Fixed& fp1, const Fixed& fp2);
         static Fixed& min(Fixed& fp1, Fixed& fp2);
+        static int getFraction(void);
         // HELPERS :
         void announce(const std::string& message) const;
         static unsigned int getFloatSign(float num);
@@ -55,5 +45,17 @@ class Fixed
 
 };
 
+bool operator>(const Fixed& fp1, const Fixed& fp2);
+bool operator>=(const Fixed& fp1, const Fixed& fp2);
+bool operator<(const Fixed& fp1, const Fixed& fp2);
+bool operator<=(const Fixed& fp1, const Fixed& fp2);
+bool operator==(const Fixed& fp1, const Fixed& fp2);
+bool operator!=(const Fixed& fp1, const Fixed& fp2);
+Fixed  operator*(const Fixed& fp1, const Fixed& fp2);
+Fixed  operator/(const Fixed& fp1, const Fixed& fp2);
+Fixed  operator+(const Fixed& fp1, const Fixed& fp2);
+Fixed  operator-(const Fixed& fp1, const Fixed& fp2);
+std::ostream& operator<<(std::ostream& os, const Fixed& obj);
+        
 
 #endif // FIXED_HPP

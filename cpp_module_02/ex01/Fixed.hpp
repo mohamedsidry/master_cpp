@@ -19,11 +19,11 @@ class Fixed
 
         // OPERATORS
         Fixed& operator=(const Fixed& other);
-        friend std::ostream& operator<<(std::ostream& os, const Fixed& obj);
-        // MEMBER METHODES
         
+        // MEMBER METHODES
         int toInt(void) const;
         float toFloat(void) const;
+
         // HELPERS :
         void announce(const std::string& message) const;
         static unsigned int getFloatSign(float num);
@@ -37,5 +37,7 @@ class Fixed
 
 };
 
+// OPERATORS 
+std::ostream& operator<<(std::ostream& os, const Fixed& obj);
 
 #endif // FIXED_HPP

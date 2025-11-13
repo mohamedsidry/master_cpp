@@ -38,8 +38,8 @@ bool Point::bsp( Point const a, Point const b, Point const c, Point const point)
     area2 = area(a, c, point);
     area3 = area(b, c, point);
     
-    //return ((total == (area1 + area2 + area3)) && area1 * area2 * area3 != 0);
-    return(total == (area1 + area2 + area3));
+    return ((total == (area1 + area2 + area3)) && area1 * area2 * area3 != 0);
+    //return(total == (area1 + area2 + area3));
 }
 
 Area Point::area(const Point& pointA, const Point& pointB, const Point& pointC)
@@ -119,7 +119,6 @@ void Point::drawPointArea(const Point& pointA, const Point& pointB, const Point&
         std::cerr << "Error: Could not open output file.\n";
         return;
     }
-
     for (Fixed y = maxY; y >= minY; y--)
     {
         for (Fixed x = minX; x <= maxX; x++)

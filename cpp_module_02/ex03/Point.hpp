@@ -21,7 +21,6 @@ class Point
         Point(const Fixed& x, const Fixed& y);
         ~Point();
 
-        friend bool operator==(const Point& point1, const Point& point2);
         const Fixed& getX(void) const;
         const Fixed& getY(void) const;
         bool bsp( Point const a, Point const b, Point const c, Point const point);
@@ -31,6 +30,8 @@ class Point
 
 
 };
+
+bool operator==(const Point& point1, const Point& point2);
 
 
 #endif // POINT_HPP

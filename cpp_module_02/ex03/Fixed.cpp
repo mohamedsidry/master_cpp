@@ -28,33 +28,33 @@ std::ostream& operator<<(std::ostream& os, const Fixed& obj)
 
 bool operator>(const Fixed& fp1, const Fixed&  fp2)
 {
-    return ( fp1.fixedPoint >  fp2.fixedPoint);
+    return ( fp1.getRawBits() >  fp2.getRawBits());
 }
 bool operator>=(const Fixed& fp1, const Fixed&  fp2)
 {
-    return ( fp1.fixedPoint >=  fp2.fixedPoint);
+    return (fp1.getRawBits() >=  fp2.getRawBits());
 }
 bool operator<(const Fixed& fp1, const Fixed&  fp2)
 {
-    return ( fp1.fixedPoint <  fp2.fixedPoint);
+    return (fp1.getRawBits() <  fp2.getRawBits());
 }
 bool operator<=(const Fixed& fp1, const Fixed&  fp2)
 {
-    return ( fp1.fixedPoint <=  fp2.fixedPoint);
+    return (fp1.getRawBits() <=  fp2.getRawBits());
 }
 bool operator==(const Fixed& fp1, const Fixed&  fp2)
 {
-    return ( fp1.fixedPoint ==  fp2.fixedPoint);
+    return (fp1.getRawBits() ==  fp2.getRawBits());
 }
 bool operator!=(const Fixed& fp1, const Fixed&  fp2)
 {
-    return ( fp1.fixedPoint !=  fp2.fixedPoint);
+    return (fp1.getRawBits() !=  fp2.getRawBits());
 }
 
 Fixed operator*(const Fixed& fp1, const Fixed& fp2)
 {
     Fixed result;
-    result.setRawBits((fp1.getRawBits() * fp2.getRawBits()) >> fp1.bitsFract);
+    result.setRawBits((fp1.getRawBits() * fp2.getRawBits()) >> Fixed::getFraction());
     return (result);
 }
 
@@ -63,7 +63,7 @@ Fixed operator/(const Fixed& fp1, const Fixed& fp2)
     if (fp2.getRawBits() == 0)
         throw std::logic_error("Division by zero");
     Fixed result;
-    result.setRawBits((fp1.getRawBits() << fp1.bitsFract) / fp2.getRawBits());
+    result.setRawBits((fp1.getRawBits() << Fixed::getFraction()) / fp2.getRawBits());
     return (result);
 }
 
@@ -249,4 +249,8 @@ void  Fixed::setRawBits(const int raw)
     fixedPoint = raw;
 }
 
+int Fixed::getFraction(void)
+{
+    return (bitsFract);
+}
 
