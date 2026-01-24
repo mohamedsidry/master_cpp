@@ -37,7 +37,7 @@ Fixed::Fixed(const float nbr){fixedPoint = static_cast<int>(roundf(nbr * (1U << 
  * @brief Fixed: default destructor .
  * @details: release the resourses .
  * @param no_params
- * @return nothing .
+ * @return nada !
 */
 Fixed::~Fixed()
 {
@@ -74,127 +74,114 @@ std::ostream& operator<<(std::ostream& os, const Fixed& obj)
 
 /**
  * @brief operator>: compare two fixed points.
- * @param [in] fp1 : fixed point 1 .
- * @param [in] fp2 : fixed point 2 .
- * @return is fp1 greater then fp2 .
+ * @param [in] ref : fixed point ref .
+ * @return is this obj greater then ref .
 */
-bool operator>(const Fixed& fp1, const Fixed&  fp2)
+bool Fixed::operator>(const Fixed& ref) const
 {
-    return ( fp1.getRawBits() >  fp2.getRawBits());
+    return (this->getRawBits() > ref.getRawBits());
 }
 
 /**
  * @brief operator>=: compare two fixed points.
- * @param [in] fp1 : fixed point 1 .
- * @param [in] fp2 : fixed point 2 .
- * @return is fp1 greater or equal to fp2 .
+* @param [in] ref : fixed point ref .
+ * @return is this obj greater or equal to ref .
 */
-bool operator>=(const Fixed& fp1, const Fixed&  fp2)
+bool Fixed::operator>=(const Fixed& ref) const
 {
-    return ( fp1.getRawBits() >=  fp2.getRawBits());
+    return (this->getRawBits() >= ref.getRawBits());
 }
 
 /**
  * @brief operator<: compare two fixed points.
- * @param [in] fp1 : fixed point 1 .
- * @param [in] fp2 : fixed point 2 .
- * @return is fp1 less then fp2 .
+ * @param [in] ref : fixed point ref .
+ * @return is this obj less then ref .
 */
-bool operator<(const Fixed& fp1, const Fixed&  fp2)
+bool Fixed::operator<(const Fixed& ref) const
 {
-    return ( fp1.getRawBits() <  fp2.getRawBits());
+    return ( this->getRawBits() <  ref.getRawBits());
 }
 
 /**
  * @brief operator<=: compare two fixed points.
- * @param [in] fp1 : fixed point 1 .
- * @param [in] fp2 : fixed point 2 .
- * @return is fp1 less or equal to fp2 .
+ * @param [in] ref : fixed point ref .
+ * @return is this obj less or equal to ref .
 */
-bool operator<=(const Fixed& fp1, const Fixed&  fp2)
+bool Fixed::operator<=(const Fixed& ref) const
 {
-    return ( fp1.getRawBits() <=  fp2.getRawBits());
+    return ( this->getRawBits() <=  ref.getRawBits());
 }
 
 /**
  * @brief operator==: compare two fixed points.
- * @param [in] fp1 : fixed point 1 .
- * @param [in] fp2 : fixed point 2 .
- * @return is fp1 equal to fp2 .
+  * @param [in] ref : fixed point ref .
+ * @return is this obj equal to ref .
 */
-bool operator==(const Fixed& fp1, const Fixed&  fp2)
+bool Fixed::operator==(const Fixed& ref) const
 {
-    return ( fp1.getRawBits() ==  fp2.getRawBits());
+    return ( this->getRawBits() ==  ref.getRawBits());
 }
 
 /**
  * @brief operator!=: compare two fixed points.
- * @param [in] fp1 : fixed point 1 .
- * @param [in] fp2 : fixed point 2 .
- * @return is fp1 not equal to fp2 .
+ * @param [in] ref : fixed point ref .
+ * @return is this obj not equal to ref .
 */
-bool operator!=(const Fixed& fp1, const Fixed&  fp2)
+bool Fixed::operator!=(const Fixed& ref) const
 {
-    return ( fp1.getRawBits() !=  fp2.getRawBits());
+    return (this->getRawBits() !=  ref.getRawBits());
 }
 
 /**
  * @brief operator*: multiplay two fixed points.
- * @param [in] fp1 : fixed point 1 .
- * @param [in] fp2 : fixed point 2 .
+ * @param [in] ref : fixed point ref .
  * @return result of multiplication .
 */
-Fixed operator*(const Fixed& fp1, const Fixed& fp2)
+Fixed Fixed::operator*(const Fixed& ref) const
 {
     Fixed result;
 
-    long raw =
-        static_cast<long>(fp1.getRawBits()) *
-        static_cast<long>(fp2.getRawBits());
-
-    result.setRawBits(raw >> Fixed::getFraction());
+    long raw = static_cast<long>(this->getRawBits()) * static_cast<long>(ref.getRawBits());
+    result.setRawBits(raw >> this->bitsFract);
     return result;
 }
 
 /**
  * @brief operator/: divide fp1 by fp2.
- * @param [in] fp1 : fixed point 1 .
- * @param [in] fp2 : fixed point 2 .
+ * @param [in] ref : fixed point ref .
  * @protected throw exaption in case of Division by 0 .
  * @return result of Division .
 */
-Fixed operator/(const Fixed& fp1, const Fixed& fp2)
+Fixed Fixed::operator/(const Fixed& ref) const
 {
-    if (fp2.getRawBits() == 0)
-        throw std::logic_error("Division by zero");
     Fixed result;
-    result.setRawBits((fp1.getRawBits() << Fixed::getFraction()) / fp2.getRawBits());
+    if (ref.getRawBits() == 0)
+        throw std::logic_error("Division by zero");
+    result.setRawBits((this->getRawBits() << this->bitsFract) / ref.getRawBits());
     return (result);
 }
 
 /**
  * @brief operator+: addition of two fixed points.
- * @param [in] fp1 : fixed point 1 .
- * @param [in] fp2 : fixed point 2 .
+  * @param [in] ref : fixed point ref .
  * @return result of addition .
 */
-Fixed operator+(const Fixed& fp1, const Fixed& fp2)
+Fixed Fixed::operator+(const Fixed& ref) const
 {
     Fixed result;
-    result.setRawBits(fp1.getRawBits() + fp2.getRawBits());
+    result.setRawBits(this->getRawBits() + ref.getRawBits());
     return (result);
 }
 
 /**
  * @brief operator-: subtraction of two fixed points.
- * @param [in] fp1 : fixed point 1 .
- * @param [in] fp2 : fixed point 2 .
+ * @param [in] ref : fixed point ref .
  * @return result of subtraction .
 */
-Fixed operator-(const Fixed& fp1, const Fixed& fp2)
+Fixed Fixed::operator-(const Fixed& ref) const
 {
     Fixed result;
-    result.setRawBits(fp1.getRawBits() - fp2.getRawBits());
+    result.setRawBits(this->getRawBits() - ref.getRawBits());
     return (result);
 }
 

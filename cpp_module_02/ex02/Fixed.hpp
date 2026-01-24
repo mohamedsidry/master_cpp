@@ -3,6 +3,8 @@
 
 #include <iostream>
 #include <cmath>
+#include <stdexcept>
+
 
 class Fixed
 {
@@ -18,11 +20,21 @@ class Fixed
         ~Fixed();
 
         // OPERATORS
-        Fixed& operator=(const Fixed& other);
-        Fixed& operator++();
-        Fixed& operator--();
-        Fixed operator++(int);
-        Fixed operator--(int);
+        Fixed&  operator=(const Fixed& other);
+        Fixed&  operator++();
+        Fixed&  operator--();
+        Fixed  operator++(int);
+        Fixed  operator--(int);
+        bool    operator>(const Fixed& right) const;
+        bool    operator>=(const Fixed& right) const;
+        bool    operator<(const Fixed& right) const;
+        bool    operator<=(const Fixed& right) const;
+        bool    operator==(const Fixed& right) const;
+        bool    operator!=(const Fixed& right) const;
+        Fixed   operator*(const Fixed& right) const;
+        Fixed   operator/(const Fixed& right)const;
+        Fixed   operator+(const Fixed& right) const;
+        Fixed   operator-(const Fixed& right)const;
 
         // MEMBER METHODES
         int toInt(void) const;
@@ -50,15 +62,6 @@ class Fixed
 
 // OPERATORS
 std::ostream& operator<<(std::ostream& os, const Fixed& obj);
-bool operator>(const Fixed& fp1, const Fixed& fp2);
-bool operator>=(const Fixed& fp1, const Fixed& fp2);
-bool operator<(const Fixed& fp1, const Fixed& fp2);
-bool operator<=(const Fixed& fp1, const Fixed& fp2);
-bool operator==(const Fixed& fp1, const Fixed& fp2);
-bool operator!=(const Fixed& fp1, const Fixed& fp2);
-Fixed  operator*(const Fixed& fp1, const Fixed& fp2);
-Fixed  operator/(const Fixed& fp1, const Fixed& fp2);
-Fixed  operator+(const Fixed& fp1, const Fixed& fp2);
-Fixed  operator-(const Fixed& fp1, const Fixed& fp2);
+
 
 #endif // FIXED_HPP
