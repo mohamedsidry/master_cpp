@@ -1,18 +1,58 @@
 
 #include "Fixed.hpp"
 
-
+/**
+ * @brief Fixed: default constructor .
+ * @details: set attributes to default values .
+ * @param no_params
+ * @return nothing !
+*/
 Fixed::Fixed(): fixedPoint(0){}
 
+/**
+ * @brief Fixed: constructor that takes an int .
+ * @details: set fixedPoint attributes to nbr .
+ * @param [in] nbr number !
+ * @return nothing !
+*/
 Fixed::Fixed(const int nbr): fixedPoint(nbr << bitsFract){}
 
+/**
+ * @brief Fixed: copy constructor .
+ * @details: set new object attributes to other attributes values .
+ * @param [in] other ref to object to copy from it !
+ * @return nothing !
+*/
 Fixed::Fixed(const Fixed& other){this->fixedPoint = other.fixedPoint;}
 
+/**
+ * @brief Fixed: constructor that takes a float .
+ * @details: set fixedPoint attributes to nbr .
+ * @param [in] nbr number !
+ * @return nothing !
+*/
 Fixed::Fixed(const float nbr){fixedPoint = static_cast<int>(roundf(nbr * (1U << bitsFract)));}
 
+/**
+ * @brief Fixed: default destructor .
+ * @details: release the resourses .
+ * @param no_params
+ * @return nada !
+*/
+Fixed::~Fixed()
+{
+    //announce("Destructor called");
+}
 
 
 // OPERATORES
+
+/**
+ * @brief Fixed: copy assignment operator .
+ * @details: set new object attributes to other attributes values .
+ * @param [in] other ref to object to copy from it !
+ * @return new object !
+*/
 Fixed& Fixed::operator=(const Fixed& other)
 {
     if (this != &other)
@@ -20,44 +60,109 @@ Fixed& Fixed::operator=(const Fixed& other)
     return *this;
 }
 
+/**
+ * @brief operator<<: insert float number from obj to stream.
+ * @param [in, out] os : output stream .
+ * @param [in] obj : fixedpoint ref .
+ * @return output stream with number inserted to it .
+*/
 std::ostream& operator<<(std::ostream& os, const Fixed& obj)
 {
     os << obj.toFloat();
     return os;
 }
 
+/**
+ * @brief operator>: compare two fixed points.
+ * @param [in] fp1 : fixed point 1 .
+ * @param [in] fp2 : fixed point 2 .
+ * @return is fp1 greater then fp2 .
+*/
 bool operator>(const Fixed& fp1, const Fixed&  fp2)
 {
     return ( fp1.getRawBits() >  fp2.getRawBits());
 }
+
+/**
+ * @brief operator>=: compare two fixed points.
+ * @param [in] fp1 : fixed point 1 .
+ * @param [in] fp2 : fixed point 2 .
+ * @return is fp1 greater or equal to fp2 .
+*/
 bool operator>=(const Fixed& fp1, const Fixed&  fp2)
 {
     return ( fp1.getRawBits() >=  fp2.getRawBits());
 }
+
+/**
+ * @brief operator<: compare two fixed points.
+ * @param [in] fp1 : fixed point 1 .
+ * @param [in] fp2 : fixed point 2 .
+ * @return is fp1 less then fp2 .
+*/
 bool operator<(const Fixed& fp1, const Fixed&  fp2)
 {
     return ( fp1.getRawBits() <  fp2.getRawBits());
 }
+
+/**
+ * @brief operator<=: compare two fixed points.
+ * @param [in] fp1 : fixed point 1 .
+ * @param [in] fp2 : fixed point 2 .
+ * @return is fp1 less or equal to fp2 .
+*/
 bool operator<=(const Fixed& fp1, const Fixed&  fp2)
 {
     return ( fp1.getRawBits() <=  fp2.getRawBits());
 }
+
+/**
+ * @brief operator==: compare two fixed points.
+ * @param [in] fp1 : fixed point 1 .
+ * @param [in] fp2 : fixed point 2 .
+ * @return is fp1 equal to fp2 .
+*/
 bool operator==(const Fixed& fp1, const Fixed&  fp2)
 {
     return ( fp1.getRawBits() ==  fp2.getRawBits());
 }
+
+/**
+ * @brief operator!=: compare two fixed points.
+ * @param [in] fp1 : fixed point 1 .
+ * @param [in] fp2 : fixed point 2 .
+ * @return is fp1 not equal to fp2 .
+*/
 bool operator!=(const Fixed& fp1, const Fixed&  fp2)
 {
     return ( fp1.getRawBits() !=  fp2.getRawBits());
 }
 
+/**
+ * @brief operator*: multiplay two fixed points.
+ * @param [in] fp1 : fixed point 1 .
+ * @param [in] fp2 : fixed point 2 .
+ * @return result of multiplication .
+*/
 Fixed operator*(const Fixed& fp1, const Fixed& fp2)
 {
     Fixed result;
-    result.setRawBits((fp1.getRawBits() * fp2.getRawBits()) >> Fixed::getFraction());
-    return (result);
+
+    long long raw =
+        static_cast<long long>(fp1.getRawBits()) *
+        static_cast<long long>(fp2.getRawBits());
+
+    result.setRawBits(raw >> Fixed::getFraction());
+    return result;
 }
 
+/**
+ * @brief operator/: divide fp1 by fp2.
+ * @param [in] fp1 : fixed point 1 .
+ * @param [in] fp2 : fixed point 2 .
+ * @protected throw exaption in case of Division by 0 .
+ * @return result of Division .
+*/
 Fixed operator/(const Fixed& fp1, const Fixed& fp2)
 {
     if (fp2.getRawBits() == 0)
@@ -67,6 +172,12 @@ Fixed operator/(const Fixed& fp1, const Fixed& fp2)
     return (result);
 }
 
+/**
+ * @brief operator+: addition of two fixed points.
+ * @param [in] fp1 : fixed point 1 .
+ * @param [in] fp2 : fixed point 2 .
+ * @return result of addition .
+*/
 Fixed operator+(const Fixed& fp1, const Fixed& fp2)
 {
     Fixed result;
@@ -74,6 +185,12 @@ Fixed operator+(const Fixed& fp1, const Fixed& fp2)
     return (result);
 }
 
+/**
+ * @brief operator-: subtraction of two fixed points.
+ * @param [in] fp1 : fixed point 1 .
+ * @param [in] fp2 : fixed point 2 .
+ * @return result of subtraction .
+*/
 Fixed operator-(const Fixed& fp1, const Fixed& fp2)
 {
     Fixed result;
@@ -81,12 +198,22 @@ Fixed operator-(const Fixed& fp1, const Fixed& fp2)
     return (result);
 }
 
+/**
+ * @brief operator++: post increment .
+ * @param no_params .
+ * @return object after increment .
+*/
 Fixed& Fixed::operator++()
 {
     this->setRawBits(fixedPoint + 1);
     return *this;
 }
 
+/**
+ * @brief operator++: pre increment .
+ * @param no_params . we only add int to differ between pre and post 
+ * @return object before increment .
+*/
 Fixed Fixed::operator++(int)
 {
     Fixed tmp(*this);
@@ -94,12 +221,22 @@ Fixed Fixed::operator++(int)
     return (tmp);
 }
 
+/**
+ * @brief operator--: post decrement .
+ * @param no_params .
+ * @return object after decrement .
+*/
 Fixed& Fixed::operator--()
 {
     this->setRawBits(fixedPoint - 1);
     return *this;
 }
 
+/**
+ * @brief operator--: pre decrement .
+ * @param no_params . we only add (int) to differ between pre and post 
+ * @return object before decrement .
+*/
 Fixed Fixed::operator--(int)
 {
     Fixed tmp(*this);
@@ -108,8 +245,7 @@ Fixed Fixed::operator--(int)
 }
 
 
-Fixed::~Fixed()
-{}
+
 
 
 
@@ -117,127 +253,97 @@ Fixed::~Fixed()
 // MEMBER METHODES 
 
 
+/**
+ * @brief toInt: extract int value from fixed point .
+ * @param no_params
+ * @return integer .
+*/
 int Fixed::toInt(void) const
 {
     return (fixedPoint >> bitsFract);
 }
 
+/**
+ * @brief toInt: extract real number from fixed point .
+ * @param no_param .
+ * @return integer .
+*/
 float Fixed::toFloat(void) const
 {
     return (static_cast<float>(fixedPoint) / (1U << bitsFract));
 }
 
-
+/**
+ * @brief min: get the min fixedpoint of two fixed point.
+ * @param [in] fp1 fixedpoint 1 .
+ * @param [in] fp2 fixedpoint 2 .
+ * @return small one .
+*/
 Fixed& Fixed::min(Fixed& fp1, Fixed& fp2)
 {    
     return fp1 > fp2 ? fp2 : fp1; 
 }
 
+/**
+ * @brief min: get the max fixedpoint of two fixed point.
+ * @param [in] fp1 fixedpoint 1 .
+ * @param [in] fp2 fixedpoint 2 .
+ * @return big one .
+*/
 Fixed& Fixed::max(Fixed& fp1, Fixed& fp2)
 {    
     return fp1 > fp2 ? fp1 : fp2; 
 }
 
-
+/**
+ * @brief min: get the min fixedpoint of two fixed point.
+ * @param [in] fp1 fixedpoint 1 .
+ * @param [in] fp2 fixedpoint 2 .
+ * @return small one .
+*/
 const Fixed& Fixed::min(const Fixed& fp1, const Fixed& fp2)
 {   
     return fp1 > fp2 ? fp2 : fp1; 
 }
 
+/**
+ * @brief min: get the max fixedpoint of two fixed point.
+ * @param [in] fp1 fixedpoint 1 .
+ * @param [in] fp2 fixedpoint 2 .
+ * @return big one .
+*/
 const Fixed& Fixed::max(const Fixed& fp1, const Fixed& fp2)
 {    
     return fp1 > fp2 ? fp1 : fp2; 
 }
 
-
-
-void Fixed::announce(const std::string& message) const
-{
-    std::cout << message << std::endl;
-}
 /**
- * getSign: get the sign of float number positive or negative .
- * desc : take float number stor it in union shift it by 31 so the most sig bit bacome less sig bit
- *        return num bitwise 1
- * arg: float number !
- * return: ether {0, 1} , 0 means positive number .
- * v
- * 0 00111111 00000000000000000000000 +0.5 return (0) ;
- * v
- * 1 00111111 00000000000000000000000 -0.5 return (1) ;
- * 
- */
-
-unsigned int Fixed::getFloatSign(float num)
-{
-    union rawBits {float f;unsigned int u;};
-    rawBits raw;
-    raw.f = num;
-    return raw.u >> 31 & 0x1;
-}
-
-/**
- * 
- * getFloatExponent: get the exponent part of float number .
- * desc : take float number stor it in union remove sign shift it by 24 and
- *        bitwise with max value can be stored in 8bits to get the fraction part . 
- * arg: num float number !
- * return: ether {0...255}.
- *  (=127) num <= 0 ; (< 127) num < 0.0 ; (> 127) num > 0
- * v
- * {0,1} 00111111 00000000000000000000000 +0.5 return (0) ;
- * v
- * {0}   00000000 00000000000000000111111 -0.5 return (1) ;
- * 
- */
-unsigned int Fixed::getFloatExponent(float num)
-{
-    union rawBits {float f;unsigned int u;};
-    rawBits raw;
-    raw.f = num;
-    unsigned int exponent = raw.u << 1;
-    return exponent >> 24 & 0xFF;
-}
-
-/**
- * 
- * getFloatMantisaa: get the mantisaa part of float number .
- * desc : take float number stor it in union shift it by sign bit + exponent bits and
- *        shift back to get the manti part . 
- * arg: num float number !
- * return: ether {0...2^23}.
- */
-unsigned int Fixed::getFloatMantisaa(float num)
-{
-    union rawBits {float f;unsigned int u;};
-    rawBits raw;
-    raw.f = num;
-    unsigned int mantisaa = raw.u << 9;
-    return mantisaa >> 9;
-}
-
-/**
- * showRawBits : display number to standard output in binary form .
- * arg1 : number to be shown .
- * arg2 : size of it int bits .
- * return : ostream with numbers in bin form in it !
+ * @brief getRawBit: get the raw value of fixedPoint .
+ * @param no_params
+ * @return the value in fixedPoint attribute .
 */
-std::ostream& Fixed::showRawBits(unsigned int nbr, size_t len)
-{
-    if (len == 0)
-        return std::cout;
-    else
-    {
-        showRawBits(nbr >> 1, len - 1);
-        return std::cout << (nbr & 0x1);
-    }
-}
-
-
-
-
-// GETTERS && SETTERS 
-
 int Fixed::getRawBits(void) const{return fixedPoint;}
+
+/**
+ * @brief setRawBit: set the value of fixedPoint .
+ * @param [in] raw: the new value of fixedPoint attribute .
+ * @return nothing .
+*/
 void  Fixed::setRawBits(const int raw){fixedPoint = raw;}
+
+/**
+ * @brief announce: dispaly message .
+ * @details: display text message to stdout .
+ * @param [in] message: text to display !
+ * @return nothing .
+*/
+void Fixed::announce(const std::string& message) const {std::cout << message << std::endl;}
+
+
+/**
+ * @brief getFraction: gets bitsFraction .
+ * @details: since we can not use friend keyword we use this helper to get value of bitsfraction .
+ * @param no_params
+ * @return bitsFraction length in bits .
+*/
 int Fixed::getFraction(void){return (bitsFract);}

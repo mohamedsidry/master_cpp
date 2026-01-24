@@ -8,7 +8,7 @@ CXXSTAGE = -c
 
 CXXHEADERS = Fixed.hpp Point.hpp
 CXXMAIN = main.cpp 
-CXXSRC = Fixed.cpp Point.cpp
+CXXSRC = Fixed.cpp Point.cpp bsp.cpp
 CXXOBJS = $(CXXMAIN:.cpp=.o)  $(CXXSRC:.cpp=.o)
 
 

@@ -12,7 +12,6 @@ class Point
 
         const Fixed x;
         const Fixed y;
-        Point& operator=(const Point& other);
 
     public:
         Point();
@@ -20,18 +19,14 @@ class Point
         Point(const Point& fp);
         Point(const Fixed& x, const Fixed& y);
         ~Point();
-
+        const Point& operator=(const Point& other);
+        // GETTERS && SETTERS
         const Fixed& getX(void) const;
         const Fixed& getY(void) const;
-        bool bsp( Point const a, Point const b, Point const c, Point const point);
-        static Fixed area(const Point& pointA, const Point& pointB, const Point& pointC);
-        static void drawArea(const Point& pointA, const Point& pointB, const Point& pointC);
-        static void drawPointArea(const Point& pointA, const Point& pointB, const Point& pointC, const Point& point);
-
-
 };
 
-bool operator==(const Point& point1, const Point& point2);
+bool bsp(Point const a, Point const b, Point const c, Point const point);
+typedef Point Vector;
 
 
 #endif // POINT_HPP

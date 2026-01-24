@@ -16,9 +16,10 @@ class Fixed
         ~Fixed();
         
         //GETTER && SETTER
-
         int getRawBits(void) const;
         void setRawBits(const int raw);
+        
+        // HELLPERS
         void announce(const std::string& message) const;
 
 
