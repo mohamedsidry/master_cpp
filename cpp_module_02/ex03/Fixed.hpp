@@ -43,7 +43,6 @@ class Fixed
         static Fixed& max(Fixed& fp1, Fixed& fp2);
         static const Fixed& min(const Fixed& fp1, const Fixed& fp2);
         static Fixed& min(Fixed& fp1, Fixed& fp2);
-        static int getFraction(void);
 
         // HELPERS :
         void announce(const std::string& message) const;

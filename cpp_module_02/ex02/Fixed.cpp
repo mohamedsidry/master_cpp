@@ -326,10 +326,3 @@ void  Fixed::setRawBits(const int raw){fixedPoint = raw;}
 void Fixed::announce(const std::string& message) const {std::cout << message << std::endl;}
 
 
-/**
- * @brief getFraction: gets bitsFraction .
- * @details: since we can not use friend keyword we use this helper to get value of bitsfraction .
- * @param no_params
- * @return bitsFraction length in bits .
-*/
-int Fixed::getFraction(void){return (bitsFract);}
