@@ -4,3 +4,6 @@
 *.o
 *.env
 .vscode
+/test
+*.log
+*.out
