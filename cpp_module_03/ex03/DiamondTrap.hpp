@@ -6,7 +6,7 @@
 /*   By: msidry <msidry@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/27 20:37:30 by msidry            #+#    #+#             */
-/*   Updated: 2026/01/28 12:00:50 by msidry           ###   ########.fr       */
+/*   Updated: 2026/01/31 23:14:45 by msidry           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,11 +29,12 @@ class DiamondTrap : public FragTrap, public ScavTrap
         ~DiamondTrap();
         
         void whoAmI(void);
-        
+        std::string const & getMyName(void);
         // override BHVRS 
         void attack(const std::string& target);
         void takeDamage(unsigned int amount);
         void beRepaired(unsigned int amount);
+        
     
 };
 

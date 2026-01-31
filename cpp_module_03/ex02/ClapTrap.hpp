@@ -6,7 +6,7 @@
 /*   By: msidry <msidry@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/25 10:58:30 by msidry            #+#    #+#             */
-/*   Updated: 2026/01/27 10:49:22 by msidry           ###   ########.fr       */
+/*   Updated: 2026/01/31 22:24:39 by msidry           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 
 class ClapTrap
 {
-    private:
+    protected:
         std::string name;
         unsigned int hitPoints;
         unsigned int energyPoints;
@@ -40,12 +40,6 @@ class ClapTrap
         unsigned int getHitPoints(void) const;
         unsigned int getEnergyPoints(void) const;
         unsigned int getAttackDamage(void) const;
-        
-        // SETTERS
-        void setName(const std::string&  value);
-        void setHitPoints(unsigned int value);
-        void setEnergyPoints(unsigned int value);
-        void setAttackDamage(unsigned int value);
  
 };
 

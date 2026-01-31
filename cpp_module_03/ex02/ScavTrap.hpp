@@ -6,7 +6,7 @@
 /*   By: msidry <msidry@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/27 09:56:56 by msidry            #+#    #+#             */
-/*   Updated: 2026/01/27 12:12:24 by msidry           ###   ########.fr       */
+/*   Updated: 2026/01/31 22:25:00 by msidry           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@ class ScavTrap: public ClapTrap
         void attack(const std::string& target);
         void takeDamage(unsigned int amount);
         void beRepaired(unsigned int amount);
-        // HELPER
 };
 
 

@@ -6,7 +6,7 @@
 /*   By: msidry <msidry@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/27 09:56:49 by msidry            #+#    #+#             */
-/*   Updated: 2026/01/27 14:01:49 by msidry           ###   ########.fr       */
+/*   Updated: 2026/01/31 22:07:22 by msidry           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,10 @@
 ScavTrap::ScavTrap():
 ClapTrap()
 {
-    this->setName("ScavTraper");
-    this->setHitPoints(100);
-    this->setEnergyPoints(50);
-    this->setAttackDamage(20);
+    this->name = "ScavTraper";
+    this->hitPoints = 100;
+    this->energyPoints = 50;
+    this->attackDamage = 20;
     std::cout << "ScavTrap " << "Default constructor called !" << std::endl;
 }
 
@@ -38,9 +38,9 @@ ClapTrap()
 ScavTrap::ScavTrap(const std::string& name): 
 ClapTrap(name)
 {
-    this->setHitPoints(100);
-    this->setEnergyPoints(50);
-    this->setAttackDamage(20);
+    this->hitPoints = 100;
+    this->energyPoints = 50;
+    this->attackDamage = 20;
     std::cout << "ScavTrap " << "Constructor with name was called !" << std::endl;
 }
 /**
@@ -92,12 +92,12 @@ void ScavTrap::attack(const std::string& target)
 {
     unsigned int hp, ep;
 
-    hp = this->getHitPoints();
-    ep = this->getEnergyPoints();
+    hp = this->hitPoints;
+    ep = this->energyPoints;
     if (hp == 0 || ep == 0)
         return ;
-    this->setEnergyPoints(ep - 1);
-    std::cout << "ScavTrap "  << this->getName() << " attacks " << target << ", causing " << this->getAttackDamage() << " points of damage!" << std::endl;
+    this->energyPoints--;
+    std::cout << "ScavTrap "  << this->name << " attacks " << target << ", causing " << this->attackDamage << " points of damage!" << std::endl;
 }
 
 
@@ -111,15 +111,15 @@ void ScavTrap::beRepaired(unsigned int amount)
 {
     unsigned int hp, ep;
 
-    hp = this->getHitPoints();
-    ep = this->getEnergyPoints();
+    hp = this->hitPoints;
+    ep = this->energyPoints;
     if (hp == 0 || ep == 0)
         return ;
-    this->setEnergyPoints(ep - 1);
+    this->energyPoints--;
     if (hp + amount < hp)
         amount = ~0 - hp;
-    this->setHitPoints (hp + amount);
-    std::cout << "ScavTrap " << this->getName() << " repairs itself, regaining " << amount << " hit points!" << std::endl;
+    this->hitPoints += amount;
+    std::cout << "ScavTrap " << this->name << " repairs itself, regaining " << amount << " hit points!" << std::endl;
 }
 
 /**
@@ -132,18 +132,18 @@ void ScavTrap::takeDamage(unsigned int amount)
 {
     unsigned int hp;
 
-    hp = this->getHitPoints();
+    hp = this->hitPoints;
     if (hp == 0)
     {
-        std::cout << "ScavTrap " << this->getName() << " is already destroyed!" << std::endl;
+        std::cout << "ScavTrap " << this->name << " is already destroyed!" << std::endl;
         return ;
     }
     if (amount >= hp)
         amount = hp;
-    this->setHitPoints (hp - amount);
-    std::cout << "ScavTrap "  << this->getName() << " has lost " << amount << " hit points!" << std::endl;
-    if (this->getHitPoints() == 0)
-        std::cout   << "ScavTrap "  << this->getName()<< " has been destroyed!" << std::endl;
+    this->hitPoints -= amount;
+    std::cout << "ScavTrap "  << this->name << " has lost " << amount << " hit points!" << std::endl;
+    if (this->hitPoints == 0)
+        std::cout   << "ScavTrap "  << this->name<< " has been destroyed!" << std::endl;
 }
 
 /**
@@ -153,5 +153,5 @@ void ScavTrap::takeDamage(unsigned int amount)
 */
 void ScavTrap::guardGate(void)
 {
-    std::cout   << "ScavTrap "  << this->getName()<< " is now in Gate keeper mode!" << std::endl;
+    std::cout   << "ScavTrap "  << this->name << " is now in Gate keeper mode!" << std::endl;
 }

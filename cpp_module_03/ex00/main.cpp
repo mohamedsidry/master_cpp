@@ -6,56 +6,52 @@
 /*   By: msidry <msidry@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/25 10:58:23 by msidry            #+#    #+#             */
-/*   Updated: 2026/01/26 22:58:11 by msidry           ###   ########.fr       */
+/*   Updated: 2026/01/31 22:35:33 by msidry           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 
 #include "ClapTrap.hpp"
-#include <cassert>
 
 int main(void)
 {
     {
-        ClapTrap tmp1("PLAYER 1");
-        ClapTrap tmp2("PLAYER 2");
-        {
-            // NOTE : This checks default attributes .
-            assert(tmp1.getHitPoints() == 10);
-            assert(tmp1.getEnergyPoints() == 10);
-            assert(tmp1.getAttackDamage() == 0);
-        }
-        {
-            // NOTE : This checks behaviours .
-            tmp1.attack(tmp2.getName());
-            tmp2.takeDamage(0);
-            tmp1.attack(tmp2.getName());
-            tmp2.takeDamage(0);
-            tmp2.attack(tmp1.getName());
-            tmp1.takeDamage(0);
-            tmp1.beRepaired(1);
-        }
-
-        {
-            // NOTE : This checks changes of attributes values .
-            assert(tmp1.getHitPoints() == 11);
-            assert(tmp1.getEnergyPoints() == 10 - 2 - 1);
-            assert(tmp2.getHitPoints() == 10);
-            assert(tmp2.getEnergyPoints() == 10 - 1);
-        }
+        // NOTE : goal of this tests is to know the order of constructor / destructor
+        std::cout << "\033[1;33mTEST 1 : constructor / destructor .\033[0m" << std::endl;
+        ClapTrap pl1;
     }
-    ClapTrap *player1 = new ClapTrap();
-    ClapTrap *player2 = new ClapTrap("player2");
-    player1->attack(player2->getName());
-    player2->takeDamage(3);
-    player1->attack(player2->getName());
-    player2->takeDamage(3);
-    player1->attack(player2->getName());
-    player2->takeDamage(3);
-    player1->attack(player2->getName());
-    player2->takeDamage(3);
-    player2->attack(player1->getName());
-    delete player1;
-    delete player2;
+    
+    {
+        // NOTE : default object values !
+        std::cout << "\033[1;33mTEST 2 : default init values .\033[0m" << std::endl;
+        ClapTrap pl1("PLAYER_1");
+        std::cout << "pl1 name : " << pl1.getName() << std::endl;
+        std::cout << "pl1 HP   : " << pl1.getHitPoints() << std::endl;
+        std::cout << "pl1 EP   : " << pl1.getEnergyPoints() << std::endl;
+        std::cout << "pl1 AD   : " << pl1.getAttackDamage() << std::endl;
+    }
+    {
+        // NOTE : goal of this tests Polymorphism.
+        std::cout << "\033[1;33mTEST 3 : BHVRS testing .\033[0m" << std::endl;
+        ClapTrap* pl1 = new ClapTrap("player1");
+        ClapTrap* pl2 = new ClapTrap("player2");
+        pl1->attack(pl2->getName());
+        pl2->takeDamage(pl1->getAttackDamage());
+        pl1->beRepaired(10);
+        pl2->attack(pl1->getName());
+        pl1->takeDamage(pl2->getAttackDamage());
+        pl2->beRepaired(3);
+        pl1->takeDamage(pl2->getAttackDamage());
+        std::cout << "player1 name : " << pl1->getName() << std::endl;
+        std::cout << "pl1 HP   : " << pl1->getHitPoints() << std::endl;
+        std::cout << "pl1 EP   : " << pl1->getEnergyPoints() << std::endl;
+        std::cout << "pl1 AD   : " << pl1->getAttackDamage() << std::endl;
+        std::cout << "player2 name : " << pl2->getName() << std::endl;
+        std::cout << "pl2 HP   : " << pl2->getHitPoints() << std::endl;
+        std::cout << "pl2 EP   : " << pl2->getEnergyPoints() << std::endl;
+        std::cout << "pl2 AD   : " << pl2->getAttackDamage() << std::endl;
+        delete pl1;
+        delete pl2; 
+    }
     return (0);
 }

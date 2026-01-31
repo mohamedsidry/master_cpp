@@ -6,7 +6,7 @@
 /*   By: msidry <msidry@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/25 10:58:23 by msidry            #+#    #+#             */
-/*   Updated: 2026/01/27 14:07:00 by msidry           ###   ########.fr       */
+/*   Updated: 2026/01/31 23:02:07 by msidry           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 #include "ScavTrap.hpp"
 #include "FragTrap.hpp"
 
-#include <cassert>
 int main(void)
 {
     {
@@ -62,7 +61,8 @@ int main(void)
         ptr2->attack(ptr3->getName());
         ptr1->takeDamage(ptr2->getAttackDamage());
         delete ptr1;
-        delete ptr2; 
+        delete ptr2;
+        delete ptr3; 
     }
     {
         std::cout << "\033[1;33mTEST 3 : special abilities .\033[0m" << std::endl;
