@@ -6,7 +6,7 @@
 /*   By: msidry <msidry@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/27 20:37:24 by msidry            #+#    #+#             */
-/*   Updated: 2026/01/31 23:17:05 by msidry           ###   ########.fr       */
+/*   Updated: 2026/02/01 13:17:42 by msidry           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 
 DiamondTrap::DiamondTrap():
-ClapTrap("DiamondTraper_clap_name", FragTrap::frag_hp, ScavTrap::scav_ep, FragTrap::frag_ad),
+ClapTrap("DiamondTraper_clap_name", FragTrap::_frag_hp, ScavTrap::_scav_ep, FragTrap::_frag_ad),
 FragTrap(),
 ScavTrap(),
 name("DiamondTraper")
@@ -25,9 +25,9 @@ name("DiamondTraper")
 
 
 DiamondTrap::DiamondTrap(const std::string& name):
-ClapTrap(name + "_clap_name", FragTrap::frag_hp, ScavTrap::scav_ep, FragTrap::frag_ad),
-FragTrap(name),
-ScavTrap(name),
+ClapTrap(name + "_clap_name", FragTrap::_frag_hp, ScavTrap::_scav_ep, FragTrap::_frag_ad),
+FragTrap(),
+ScavTrap(),
 name(name)
 {
     std::cout << "DiamondTrap " << "Constructor with name was called !" << std::endl;

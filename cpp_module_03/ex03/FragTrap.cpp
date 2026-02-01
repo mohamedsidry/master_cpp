@@ -6,7 +6,7 @@
 /*   By: msidry <msidry@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/27 12:16:18 by msidry            #+#    #+#             */
-/*   Updated: 2026/01/31 22:31:38 by msidry           ###   ########.fr       */
+/*   Updated: 2026/02/01 13:27:22 by msidry           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,12 +20,8 @@
  * @return nothing !
 */
 FragTrap::FragTrap():
-ClapTrap()
+ClapTrap("FragTraper", FragTrap::_frag_hp, FragTrap::_frag_ep, FragTrap::_frag_ad)
 {
-    this->name = "FragTraper";
-    this->hitPoints = 100;
-    this->energyPoints = 100;
-    this->attackDamage = 30;
     std::cout << "FragTrap " << "Default constructor called !" << std::endl;
 }
 
@@ -35,12 +31,9 @@ ClapTrap()
  * @param [in] name sets name attribute to name !
  * @return nothing !
 */
-FragTrap::FragTrap(const std::string& name): 
-ClapTrap(name)
+FragTrap::FragTrap(const std::string& name):
+ClapTrap(name, FragTrap::_frag_hp, FragTrap::_frag_ep, FragTrap::_frag_ad)
 {
-    this->hitPoints = 100;
-    this->energyPoints = 100;
-    this->attackDamage = 30;
     std::cout << "FragTrap " << "Constructor with name was called !" << std::endl;
 }
 /**

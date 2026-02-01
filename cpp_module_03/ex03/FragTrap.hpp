@@ -6,7 +6,7 @@
 /*   By: msidry <msidry@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/27 12:06:43 by msidry            #+#    #+#             */
-/*   Updated: 2026/01/28 16:20:02 by msidry           ###   ########.fr       */
+/*   Updated: 2026/02/01 12:58:25 by msidry           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,9 @@
 class FragTrap : virtual public ClapTrap
 {
     protected:
-        const static unsigned int frag_hp = 100;
-        const static unsigned int frag_ep = 100;
-        const static unsigned int frag_ad = 30;
+        const static unsigned int _frag_hp = 100;
+        const static unsigned int _frag_ep = 100;
+        const static unsigned int _frag_ad = 30;
         
     public:
         FragTrap();

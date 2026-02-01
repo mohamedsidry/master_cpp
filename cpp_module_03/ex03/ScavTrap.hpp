@@ -6,7 +6,7 @@
 /*   By: msidry <msidry@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/27 09:56:56 by msidry            #+#    #+#             */
-/*   Updated: 2026/01/28 16:20:26 by msidry           ###   ########.fr       */
+/*   Updated: 2026/02/01 12:56:37 by msidry           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,9 @@
 class ScavTrap: virtual public ClapTrap
 {
     protected:
-        const static unsigned int scav_fp = 100;
-        const static unsigned int scav_ep = 50;
-        const static unsigned int scav_ad = 20;
+        const static unsigned int _scav_hp = 100;
+        const static unsigned int _scav_ep = 50;
+        const static unsigned int _scav_ad = 20;
         
     public:
         ScavTrap();

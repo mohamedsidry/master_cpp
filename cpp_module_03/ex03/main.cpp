@@ -6,7 +6,7 @@
 /*   By: msidry <msidry@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/25 10:58:23 by msidry            #+#    #+#             */
-/*   Updated: 2026/01/31 23:18:06 by msidry           ###   ########.fr       */
+/*   Updated: 2026/02/01 13:26:50 by msidry           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 #include "ScavTrap.hpp"
 #include "FragTrap.hpp"
 #include "DiamondTrap.hpp"
-#include <cassert>
 int main(void)
 {
     {
@@ -26,26 +25,26 @@ int main(void)
     {
         // NOTE : default object values !
         std::cout << "\033[1;33mTEST 2 : default init values .\033[0m" << std::endl;
-        ClapTrap pl1("PLAYER_1");
+        ClapTrap pl1("PLAYER_1 CLAP");
         std::cout << "pl1 name : " << pl1.getName() << std::endl;
         std::cout << "pl1 HP   : " << pl1.getHitPoints() << std::endl;
         std::cout << "pl1 EP   : " << pl1.getEnergyPoints() << std::endl;
         std::cout << "pl1 AD   : " << pl1.getAttackDamage() << std::endl;
-        ScavTrap pl2("PLAYER_2");
+        ScavTrap pl2("PLAYER_2 SCAV");
         std::cout << "pl2 name : " << pl2.getName() << std::endl;
         std::cout << "pl2 HP   : " << pl2.getHitPoints() << std::endl;
         std::cout << "pl2 EP   : " << pl2.getEnergyPoints() << std::endl;
         std::cout << "pl2 AD   : " << pl2.getAttackDamage() << std::endl;
-        FragTrap pl3("PLAYER_3");
+        FragTrap pl3("PLAYER_3 FRAG");
         std::cout << "pl3 name : " << pl3.getName() << std::endl;
         std::cout << "pl3 HP   : " << pl3.getHitPoints() << std::endl;
         std::cout << "pl3 EP   : " << pl3.getEnergyPoints() << std::endl;
         std::cout << "pl3 AD   : " << pl3.getAttackDamage() << std::endl;
-        DiamondTrap pl4("PLAYER_4");
-        std::cout << "pl3 name : " << pl4.getMyName() << std::endl;
-        std::cout << "pl3 HP   : " << pl4.getHitPoints() << std::endl;
-        std::cout << "pl3 EP   : " << pl4.getEnergyPoints() << std::endl;
-        std::cout << "pl3 AD   : " << pl4.getAttackDamage() << std::endl;
+        DiamondTrap pl4("PLAYER_4 Diamond");
+        std::cout << "pl4 name : " << pl4.getMyName() << std::endl;
+        std::cout << "pl4 HP   : " << pl4.getHitPoints() << std::endl;
+        std::cout << "pl4 EP   : " << pl4.getEnergyPoints() << std::endl;
+        std::cout << "pl4 AD   : " << pl4.getAttackDamage() << std::endl;
     }
     {
         // NOTE : goal of this tests Polymorphism.
