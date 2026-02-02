@@ -6,7 +6,7 @@
 /*   By: msidry <msidry@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/02 11:12:02 by msidry            #+#    #+#             */
-/*   Updated: 2026/02/02 16:06:24 by msidry           ###   ########.fr       */
+/*   Updated: 2026/02/02 18:40:12 by msidry           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 */
 Dog::Dog():
 Animal("dog"),
-brain(new Brain("we need to go for walk"))
+brain(new Brain("i have no idea"))
 {        
     std::cout << "Dog default constructor was called !" << std::endl;
 }
@@ -75,9 +75,26 @@ void Dog::makeSound(void) const
 }
 
 
-
-void Dog::showIdeas(void) const
+/**
+ * @brief showXIdeas display x ideas of dog .
+ * @param [in] x number of ideas to display .
+*/
+void Dog::showXIdeas(unsigned int x) const
 {
-    for (unsigned int i = 0; i < 100; i++)
-        std::cout << "index" << i << this->brain->getIdeaByIndex(i) << std::endl;
+    if (x > 100)
+        return;
+    std::cout << "Dog ideas : ";
+    for (unsigned int i = 0; i < x; i++)
+        std::cout << "'" << this->brain->getIdeaByIndex(i) << "' , ";
+    std::cout << std::endl;
+}
+
+
+/**
+ * @brief getBrain get dog brain reff .
+ * @return ref to cat brain .
+*/
+Brain& Dog::getBrain(void) const
+{
+    return *this->brain;
 }

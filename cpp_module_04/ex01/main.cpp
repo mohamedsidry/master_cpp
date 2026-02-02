@@ -6,7 +6,7 @@
 /*   By: msidry <msidry@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/02 11:22:26 by msidry            #+#    #+#             */
-/*   Updated: 2026/02/02 16:12:48 by msidry           ###   ########.fr       */
+/*   Updated: 2026/02/02 18:52:42 by msidry           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,10 @@
 
 
 
-void ll(void)
-{
-    system("leaks a.out");
-}
+// void ll(void)
+// {
+//     system("leaks a.out");
+// }
 int main(void)
 {
     {
@@ -51,12 +51,36 @@ int main(void)
         lona.makeSound();
     }
     {
-        std::cout << "\033[1;32mTEST 4 : methods .\033[0m" << std::endl;
-        Cat *kitty = new Cat();
-        kitty->showIdeas();
-        delete kitty;
+        // NOTE : copy !
+        std::cout << "\033[1;33mTEST 4 : deep and shadow copy .\033[0m" << std::endl;
+        Cat cat1;
+        Cat cat2(cat1);
+        cat1.showXIdeas(5);
+        cat2.showXIdeas(5);
+        cat1.getBrain().setIdeaByIndex("i need to eat chicken", 0);
+        cat2.getBrain().setIdeaByIndex("i need to eat fish", 0);
+        Cat cat3 = cat2;
+        cat3.getBrain().setIdeaByIndex("i want to eat candy", 1);
+        cat1.showXIdeas(5);
+        cat2.showXIdeas(5);
+        cat3.showXIdeas(5);
     }
-    atexit(ll);
+    {
+        // NOTE : copy !
+        std::cout << "\033[1;33mTEST 4 : destructor  .\033[0m" << std::endl;
+        Animal *animals[] = {
+            new Dog(), new Cat(), new Dog(), new Cat(), new Dog(),
+            new Cat(), new Cat(), new Dog(), new Dog(), new Cat(),
+            };
+        for (int i = 0; i < 10; i++)
+        {
+            std::cout << "I am a " << animals[i]->getType() << " I sound like " ;
+            animals[i]->makeSound();
+        }
+        for (int i = 0; i < 10; i++)
+            delete animals[i];
+    }
+    //atexit(ll);
     return (0);
 }
 

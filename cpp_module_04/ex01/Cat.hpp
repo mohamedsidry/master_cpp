@@ -6,7 +6,7 @@
 /*   By: msidry <msidry@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/02 10:55:24 by msidry            #+#    #+#             */
-/*   Updated: 2026/02/02 15:06:46 by msidry           ###   ########.fr       */
+/*   Updated: 2026/02/02 18:06:23 by msidry           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,8 @@ class Cat : public Animal
         Cat& operator=(const Cat& other);
         ~Cat();
         void makeSound() const;
-        void showIdeas(void) const; 
+        void showXIdeas(unsigned int) const;
+        Brain& getBrain(void) const;
 };
 
 

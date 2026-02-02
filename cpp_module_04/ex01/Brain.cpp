@@ -6,7 +6,7 @@
 /*   By: msidry <msidry@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/02 12:54:25 by msidry            #+#    #+#             */
-/*   Updated: 2026/02/02 16:02:58 by msidry           ###   ########.fr       */
+/*   Updated: 2026/02/02 18:24:35 by msidry           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,9 +66,25 @@ Brain::~Brain()
     std::cout << "Brain destructor was called !" << std::endl;
 }
 
+/**
+ * @brief getIdeaByIndex get idea in index idx .
+ * @param [in] idx index of idea .
+ * @return idea or empty string if out of range .
+*/
 std::string Brain::getIdeaByIndex(unsigned int idx) const
 {
     if (idx < 100)
         return this->ideas[idx];
     return "";
+}
+
+/**
+ * @brief setIdeaByIndex set idea in index idx .
+ * @param [in] idx new idea .
+*/
+void Brain::setIdeaByIndex(const std::string& idea, unsigned int idx)
+{
+    if (idx > 100)
+        return ;
+    this->ideas[idx] = idea;
 }

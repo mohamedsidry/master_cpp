@@ -6,7 +6,7 @@
 /*   By: msidry <msidry@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/02 11:09:45 by msidry            #+#    #+#             */
-/*   Updated: 2026/02/02 14:54:59 by msidry           ###   ########.fr       */
+/*   Updated: 2026/02/02 18:08:42 by msidry           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,8 @@ class Dog : public Animal
         ~Dog();
 
         void makeSound(void) const;
-        void showIdeas(void) const; 
+        void showXIdeas(unsigned int) const;
+        Brain& getBrain(void) const;
 };
 
 
