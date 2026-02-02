@@ -6,7 +6,7 @@
 /*   By: msidry <msidry@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/31 13:41:03 by msidry            #+#    #+#             */
-/*   Updated: 2026/01/31 15:06:02 by msidry           ###   ########.fr       */
+/*   Updated: 2026/02/02 19:12:40 by msidry           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,10 @@ unsigned int Floor::_count = 0;
 AMateria* Floor::_materias[1024] = { 0 };
 bool Floor::_debug = false;
 
-Floor::Floor(){}
+Floor::Floor(){
+    if (Floor::debugging())
+        std::cout << "Floor constructor was called !" << std::endl;
+}
 Floor& Floor::instance() { return _instance; }
 Floor::~Floor()
 {
@@ -28,6 +31,8 @@ Floor::~Floor()
         _materias[i] = 0;
     }
     _count = 0;
+    if (Floor::debugging())
+        std::cout << "Floor destructor was called !" << std::endl;
 }
 
 void Floor::add(AMateria* m)
