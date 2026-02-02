@@ -6,7 +6,7 @@
 /*   By: msidry <msidry@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/02 11:09:45 by msidry            #+#    #+#             */
-/*   Updated: 2026/02/02 13:07:16 by msidry           ###   ########.fr       */
+/*   Updated: 2026/02/02 14:54:59 by msidry           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,8 @@ class Dog : public Animal
         Dog& operator=(const Dog& other);
         ~Dog();
 
-        void makeSound(void) const;  
+        void makeSound(void) const;
+        void showIdeas(void) const; 
 };
 
 

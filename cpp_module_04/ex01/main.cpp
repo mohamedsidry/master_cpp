@@ -6,7 +6,7 @@
 /*   By: msidry <msidry@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/02 11:22:26 by msidry            #+#    #+#             */
-/*   Updated: 2026/02/02 11:58:09 by msidry           ###   ########.fr       */
+/*   Updated: 2026/02/02 16:12:48 by msidry           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,13 @@
 #include "Animal.hpp"
 #include "Dog.hpp"
 #include "Cat.hpp"
-#include "WrongAnimal.hpp"
-#include "WrongCat.hpp"
 
 
 
+void ll(void)
+{
+    system("leaks a.out");
+}
 int main(void)
 {
     {
@@ -41,14 +43,6 @@ int main(void)
     {
         // NOTE : bhvrs !
         std::cout << "\033[1;33mTEST 3 : methods .\033[0m" << std::endl;
-        WrongAnimal *kitty = new WrongCat();
-        kitty->makeSound();
-        delete kitty;
-        
-    }
-    {
-        // NOTE : bhvrs !
-        std::cout << "\033[1;33mTEST 4 : methods .\033[0m" << std::endl;
         Dog speed;
         Cat lona;
         std::cout << "I am a *" << speed.getType() << "* i sound like ";  
@@ -57,19 +51,12 @@ int main(void)
         lona.makeSound();
     }
     {
-        const Animal* meta = new Animal();
-        const Animal* j = new Dog();
-        const Animal* i = new Cat();
-        std::cout << j->getType() << " " << std::endl;
-        std::cout << i->getType() << " " << std::endl;
-        i->makeSound(); //will output the cat sound!
-        j->makeSound();
-        meta->makeSound();
-        delete meta;
-        delete i;
-        delete j;
+        std::cout << "\033[1;32mTEST 4 : methods .\033[0m" << std::endl;
+        Cat *kitty = new Cat();
+        kitty->showIdeas();
+        delete kitty;
     }
-
+    atexit(ll);
     return (0);
 }
 

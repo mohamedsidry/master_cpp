@@ -5,9 +5,9 @@ CXXVERSION = -std=c++98
 CXXFLAGS = -Wall -Werror -Wextra -pedantic
 CXXSTAGE = -c
 
-CXXHEADERS = Animal.hpp Dog.hpp Cat.hpp WrongAnimal.hpp WrongCat.hpp
+CXXHEADERS = Animal.hpp Dog.hpp Cat.hpp Brain.hpp
 CXXMAIN = main.cpp 
-CXXSRC = Animal.cpp Dog.cpp Cat.cpp WrongAnimal.cpp WrongCat.cpp
+CXXSRC = Animal.cpp Dog.cpp Cat.cpp Brain.cpp
 CXXOBJS = $(CXXMAIN:.cpp=.o)  $(CXXSRC:.cpp=.o)
 
 
