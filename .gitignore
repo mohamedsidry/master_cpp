@@ -1,0 +1,9 @@
+*.exe
+*.txt
+*.DS_Store
+*.o
+*.env
+.vscode
+/test
+*.log
+*.out
