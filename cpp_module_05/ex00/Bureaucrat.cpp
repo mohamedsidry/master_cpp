@@ -6,16 +6,19 @@
 /*   By: msidry <msidry@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/09 13:30:51 by msidry            #+#    #+#             */
-/*   Updated: 2026/03/09 15:50:43 by msidry           ###   ########.fr       */
+/*   Updated: 2026/03/11 15:46:55 by msidry           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Bureaucrat.hpp"
 
 
+const std::string Bureaucrat::DEFAULT_NAME = "DEFAULT_BUREAUCRAT_NAME";
+const int Bureaucrat::DEFAULT_GRADE = 150;
+
 Bureaucrat::Bureaucrat():
-name("Default"),
-grade(150)
+name(Bureaucrat::DEFAULT_NAME),
+grade(Bureaucrat::DEFAULT_GRADE)
 {
     std::cout << "Bureaucrat default constructor was called ." << std::endl;
 }
@@ -27,9 +30,9 @@ name(name),
 grade(grade)
 {
     if (grade  < 1)
-        throw  GradeTooHighException();
+        throw  Bureaucrat::GradeTooHighException();
     else if (grade > 150)
-        throw GradeTooLowException();
+        throw Bureaucrat::GradeTooLowException();
     std::cout << "Bureaucrat param constructor was called ." << std::endl;
 }
 
@@ -68,22 +71,28 @@ int Bureaucrat::getGrade(void) const {return (this->grade);}
 
 
 
-
 void Bureaucrat::increase(void)
 {
     if (this->grade - 1 < 1)
-        throw GradeTooHighException();
+        throw Bureaucrat::GradeTooHighException();
     this->grade--;    
 }
 void Bureaucrat::decrease(void)
 {
     if (this->grade + 1 > 150)
-        throw GradeTooLowException();
+        throw Bureaucrat::GradeTooLowException();
     this->grade++;
 }
 
+const char *Bureaucrat::GradeTooHighException::what(void) const throw()
+{
+    return ("Grade Too High .");
+}
 
-
+const char *Bureaucrat::GradeTooLowException::what(void) const throw()
+{
+    return ("Grade Too Low .");
+}
 
 std::ostream& operator << (std::ostream& os, const Bureaucrat& ref)
 {

@@ -6,7 +6,7 @@
 /*   By: msidry <msidry@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/09 13:26:12 by msidry            #+#    #+#             */
-/*   Updated: 2026/03/09 15:10:45 by msidry           ###   ########.fr       */
+/*   Updated: 2026/03/11 15:32:37 by msidry           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,13 @@
 
 #include <iostream>
 #include <string>
-#include "GradeTooHighException.hpp"
-#include "GradeTooLowException.hpp"
+#include <exception>
 
 class Bureaucrat
 {
+    static const std::string DEFAULT_NAME;
+    static const int DEFAULT_GRADE;
+    
     private:
         const std::string name;
         int grade;
@@ -33,9 +35,19 @@ class Bureaucrat
 
         const std::string& getName(void) const;
         int getGrade(void) const;
-
         void increase(void);
         void decrease(void);
+        
+        class GradeTooHighException : public std::exception
+        {
+            public:
+                const char *what(void) const throw();
+        };
+        class GradeTooLowException : public std::exception
+        {
+            public:
+                const char *what(void) const throw();
+        };
 };
 
 std::ostream& operator <<(std::ostream& os, const Bureaucrat& ref);

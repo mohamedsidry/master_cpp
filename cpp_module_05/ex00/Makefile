@@ -5,8 +5,8 @@ CXXVERSION = -std=c++98
 
 CFLASG = -Wall -Werror -Wextra -pedantic
 MAIN = main.cpp
-HEADERS = Bureaucrat.hpp GradeTooHighException.hpp GradeTooLowException.hpp
-SRCS = $(MAIN) Bureaucrat.cpp GradeTooHighException.cpp GradeTooLowException.cpp
+HEADERS = Bureaucrat.hpp 
+SRCS = $(MAIN) Bureaucrat.cpp
 OBJS = $(SRCS:.cpp=.o)
 
 

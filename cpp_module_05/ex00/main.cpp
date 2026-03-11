@@ -6,7 +6,7 @@
 /*   By: msidry <msidry@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/09 13:31:25 by msidry            #+#    #+#             */
-/*   Updated: 2026/03/09 15:49:33 by msidry           ###   ########.fr       */
+/*   Updated: 2026/03/11 15:51:18 by msidry           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,33 +17,34 @@ int main(void)
 {
     {
         std::cout << "\033[33;1mTEST 0 : Instantiation \033[0m" << std::endl;
-        Bureaucrat b1;
-        Bureaucrat b2("Cypher-1", 1);
-        Bureaucrat b3(b2);
-        Bureaucrat b4("morpheus-100", 100);
-        b4 = b2;
+        Bureaucrat unknown;
+        Bureaucrat boss("BOSS", 1);
+        Bureaucrat staff_1("STAFF", 50);
+        Bureaucrat staff_2(staff_1);
+        Bureaucrat student("Student Name", 150);
+        student = Bureaucrat(staff_2);
     }
     {
         std::cout << "\033[33;1mTEST 1 : attributes values \033[0m" << std::endl;
-        Bureaucrat b1("Cypher-42", 42);
-        std::cout << "Bureaucrat name is : " << b1.getName() << std::endl;
-        std::cout << "Bureaucrat grade is : " << b1.getGrade() << std::endl;
-        Bureaucrat b2("morpheus-99", 99);
-        std::cout << "Bureaucrat name is : " << b2.getName() << std::endl;
-        std::cout << "Bureaucrat grade is : " << b2.getGrade() << std::endl;
+        Bureaucrat staff("STAFF", 50);
+        std::cout << "Bureaucrat name is : " << staff.getName() << std::endl;
+        std::cout << "Bureaucrat grade is : " << staff.getGrade() << std::endl;
+        Bureaucrat student("Student Name", 150);
+        std::cout << "Bureaucrat name is : " << student.getName() << std::endl;
+        std::cout << "Bureaucrat grade is : " << student.getGrade() << std::endl;
     }
 
     {
         std::cout << "\033[33;1mTEST 2 : funs BHVS \033[0m" << std::endl;
-        Bureaucrat b("Cypher-100", 100);
-        std::cout << b << std::endl;
-        b.increase();
-        b.increase();
-        b.increase();
-        std::cout << b << std::endl;
-        b.decrease();
-        b.decrease();
-        std::cout << b << std::endl;
+        Bureaucrat volunteer("Student", 100);
+        std::cout << volunteer << std::endl;
+        volunteer.increase();
+        volunteer.increase();
+        volunteer.increase();
+        std::cout << volunteer << std::endl;
+        volunteer.decrease();
+        volunteer.decrease();
+        std::cout << volunteer << std::endl;
     }
     {
         std::cout << "\033[33;1mTEST 3 : Exceptions \033[0m" << std::endl;
@@ -51,14 +52,14 @@ int main(void)
         {
             try
             {
-                Bureaucrat b("Bureaucrat 0", 0);
+                Bureaucrat hacker("Hackeeeer", 0);
             }catch (const std::exception& e) 
             {
                 std::cerr << e.what() << std::endl;
             }
             try
             {
-                Bureaucrat b("Bureaucrat 1337", 1337);
+                Bureaucrat pooler("pooler-1337", 1337);
             }catch (const std::exception& e) 
             {
                 std::cerr << e.what() << std::endl;
@@ -69,8 +70,8 @@ int main(void)
             
             try
             {
-                Bureaucrat b1("Bureaucrat 1", 1);
-                b1.increase();
+                Bureaucrat boss("Bossy", 1);
+                ceo.increase();
             } catch(const std::exception& e)
             {
                 std::cerr << e.what() << std::endl;
@@ -78,8 +79,8 @@ int main(void)
 
             try
             {
-                Bureaucrat b150("Bureaucrat 1", 150);
-                b150.decrease();
+                Bureaucrat dump("Dumpa$$ 1", 150);
+                dump.decrease();
             } catch (const std::exception& e)
             {
                 std::cerr << e.what() << std::endl;
