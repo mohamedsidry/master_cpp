@@ -6,7 +6,7 @@
 /*   By: msidry <msidry@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/09 13:31:25 by msidry            #+#    #+#             */
-/*   Updated: 2026/03/11 15:51:18 by msidry           ###   ########.fr       */
+/*   Updated: 2026/03/12 19:40:15 by msidry           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,8 @@
 int main(void)
 {
     {
-        std::cout << "\033[33;1mTEST 0 : Instantiation \033[0m" << std::endl;
+        if (DEBUGMODE)
+            std::cout << "\033[33;1mTEST 0 : Instantiation \033[0m" << std::endl;
         Bureaucrat unknown;
         Bureaucrat boss("BOSS", 1);
         Bureaucrat staff_1("STAFF", 50);
@@ -25,7 +26,8 @@ int main(void)
         student = Bureaucrat(staff_2);
     }
     {
-        std::cout << "\033[33;1mTEST 1 : attributes values \033[0m" << std::endl;
+        if (DEBUGMODE)
+            std::cout << "\033[33;1mTEST 1 : attributes values \033[0m" << std::endl;
         Bureaucrat staff("STAFF", 50);
         std::cout << "Bureaucrat name is : " << staff.getName() << std::endl;
         std::cout << "Bureaucrat grade is : " << staff.getGrade() << std::endl;
@@ -35,7 +37,8 @@ int main(void)
     }
 
     {
-        std::cout << "\033[33;1mTEST 2 : funs BHVS \033[0m" << std::endl;
+        if (DEBUGMODE)
+            std::cout << "\033[33;1mTEST 2 : funs BHVS \033[0m" << std::endl;
         Bureaucrat volunteer("Student", 100);
         std::cout << volunteer << std::endl;
         volunteer.increase();
@@ -47,7 +50,8 @@ int main(void)
         std::cout << volunteer << std::endl;
     }
     {
-        std::cout << "\033[33;1mTEST 3 : Exceptions \033[0m" << std::endl;
+        if (DEBUGMODE)
+            std::cout << "\033[33;1mTEST 3 : Exceptions \033[0m" << std::endl;
         
         {
             try
@@ -71,7 +75,7 @@ int main(void)
             try
             {
                 Bureaucrat boss("Bossy", 1);
-                ceo.increase();
+                boss.increase();
             } catch(const std::exception& e)
             {
                 std::cerr << e.what() << std::endl;

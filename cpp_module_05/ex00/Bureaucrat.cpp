@@ -6,7 +6,7 @@
 /*   By: msidry <msidry@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/09 13:30:51 by msidry            #+#    #+#             */
-/*   Updated: 2026/03/11 15:46:55 by msidry           ###   ########.fr       */
+/*   Updated: 2026/03/12 19:37:51 by msidry           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,8 @@ Bureaucrat::Bureaucrat():
 name(Bureaucrat::DEFAULT_NAME),
 grade(Bureaucrat::DEFAULT_GRADE)
 {
-    std::cout << "Bureaucrat default constructor was called ." << std::endl;
+    if (DEBUGMODE)
+        std::cout << "Bureaucrat default constructor was called ." << std::endl;
 }
 
 
@@ -33,7 +34,8 @@ grade(grade)
         throw  Bureaucrat::GradeTooHighException();
     else if (grade > 150)
         throw Bureaucrat::GradeTooLowException();
-    std::cout << "Bureaucrat param constructor was called ." << std::endl;
+    if (DEBUGMODE)
+        std::cout << "Bureaucrat param constructor was called ." << std::endl;
 }
 
 
@@ -41,7 +43,8 @@ Bureaucrat::Bureaucrat(const Bureaucrat& other):
 name(other.name),
 grade(other.grade)
 {
-    std::cout << "Bureaucrat copy constructor was called ." << std::endl;
+    if (DEBUGMODE)
+        std::cout << "Bureaucrat copy constructor was called ." << std::endl;
 }
 
 
@@ -50,14 +53,16 @@ Bureaucrat& Bureaucrat::operator=(const Bureaucrat& other)
 {
     if (this != &other)
         this->grade = other.grade;
-    std::cout << "Bureaucrat copy assignment operator was called ." << std::endl;
+    if (DEBUGMODE)
+        std::cout << "Bureaucrat copy assignment operator was called ." << std::endl;
     return (*this);
 }
 
 
 Bureaucrat::~Bureaucrat()
 {
-    std::cout << "Bureaucrat destructor was called ." << std::endl;
+    if (DEBUGMODE)
+        std::cout << "Bureaucrat destructor was called ." << std::endl;
 }
 
 
