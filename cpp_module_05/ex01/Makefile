@@ -3,16 +3,19 @@ NAME = Bureaucrat
 CXX = c++
 CXXVERSION = -std=c++98
 
-CFLASG = -Wall -Werror -Wextra -pedantic
+CFLAGS = -Wall -Werror -Wextra -pedantic
 MAIN = main.cpp
 HEADERS = Bureaucrat.hpp Form.hpp
 SRCS = $(MAIN) Bureaucrat.cpp Form.cpp 
 OBJS = $(SRCS:.cpp=.o)
 
 
+DB_MODE = 0
+
+
 %.o:%.cpp $(HEADERS)
 	@echo "compile" $<
-	@$(CXX) $(CXXVERSION) $(CFLASG) -c $< -o $@
+	@$(CXX) $(CXXVERSION) $(CFLAGS) -c $< -o $@ -DDEBUGMODE=$(DB_MODE)
 
 
 
@@ -21,7 +24,7 @@ all : $(NAME)
 
 $(NAME) : $(OBJS)
 	@echo "linking" $@
-	@$(CXX) $(CXXVERSION) $(CFLASG) $^ -o $@
+	@$(CXX) $(CXXVERSION) $(CFLAGS) $^ -o $@
 
 re : fclean all
 

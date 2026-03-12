@@ -6,7 +6,7 @@
 /*   By: msidry <msidry@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/10 13:21:26 by msidry            #+#    #+#             */
-/*   Updated: 2026/03/11 15:14:37 by msidry           ###   ########.fr       */
+/*   Updated: 2026/03/12 19:37:10 by msidry           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,8 @@ grade_to_sign(DEFAULT_GRADE),
 grade_to_execute(DEFAULT_GRADE),
 is_signed(false)
 {
-    std::cout << "Form Default constructor was called !" << std::endl;
+    if (DEBUGMODE)
+        std::cout << "Form Default constructor was called !" << std::endl;
 }
 
 
@@ -33,11 +34,12 @@ grade_to_sign(gts),
 grade_to_execute(gte),
 is_signed(false)
 {
-    std::cout << "Form Param constructor was called !" << std::endl;
     if (gts > 150 || gte > 150)
         throw Form::GradeTooLowException();
     if (gts < 1 || gte < 1)
         throw Form::GradeTooHighException();
+    if (DEBUGMODE)
+        std::cout << "Form Param constructor was called !" << std::endl;
 }
 
 Form::Form(const Form& other):
@@ -46,25 +48,28 @@ grade_to_sign(other.grade_to_sign),
 grade_to_execute(other.grade_to_execute),
 is_signed(other.is_signed)
 {
-    std::cout << "Form Copy constructor was called !" << std::endl;
+    if (DEBUGMODE)
+        std::cout << "Form Copy constructor was called !" << std::endl;
 }
 
 
 
 Form& Form::operator=(const Form& other)
 {
-    std::cout << "Form Copy Assignment operator was called !" << std::endl;
     if (this != &other)
     {
         this->is_signed = other.is_signed;
     }
     return (*this);
+    if (DEBUGMODE)
+        std::cout << "Form Copy Assignment operator was called !" << std::endl;
 }
 
 
 Form::~Form()
 {
-    std::cout << "Form Destructor was called !" << std::endl;
+    if (DEBUGMODE)
+        std::cout << "Form Destructor was called !" << std::endl;
 }
 
 

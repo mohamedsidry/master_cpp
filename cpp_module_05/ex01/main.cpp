@@ -6,7 +6,7 @@
 /*   By: msidry <msidry@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/09 13:31:25 by msidry            #+#    #+#             */
-/*   Updated: 2026/03/11 15:31:56 by msidry           ###   ########.fr       */
+/*   Updated: 2026/03/12 19:40:51 by msidry           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,14 @@
 int main(void)
 {
     {
-        std::cout << "\033[33;1mTEST 0 : Instantiation \033[0m" << std::endl;
+        if (DEBUGMODE)
+            std::cout << "\033[33;1mTEST 0 : Instantiation \033[0m" << std::endl;
         Bureaucrat boss("boss", 1);
         Form taxForm("tax", 50, 50);
     }
     {
-        std::cout << "\033[33;1mTEST 1 : attributes values \033[0m" << std::endl;
+        if (DEBUGMODE)
+            std::cout << "\033[33;1mTEST 1 : attributes values \033[0m" << std::endl;
         Bureaucrat boss("bossName", 1);
         Form taxForm("taxName", 50, 50);
         std::cout << "Bureaucrat name is : " << boss.getName() << std::endl;
@@ -33,7 +35,8 @@ int main(void)
         std::cout << "Form is signed : " << (taxForm.getIsSigned() ? "true" : "false") << std::endl;
     }
     {
-        std::cout << "\033[33;1mTEST 2 : funcs BHVRS \033[0m" << std::endl;
+        if (DEBUGMODE)
+            std::cout << "\033[33;1mTEST 2 : funcs BHVRS \033[0m" << std::endl;
         Bureaucrat boss("bossName", 1);
         std::cout << boss << std::endl;
         Form form;
@@ -43,7 +46,8 @@ int main(void)
     }
 
     {
-        std::cout << "\033[33;1mTEST 3 : Exceptions \033[0m" << std::endl;
+        if (DEBUGMODE)
+            std::cout << "\033[33;1mTEST 3 : Exceptions \033[0m" << std::endl;
         try
         {
             Bureaucrat staff1("staff N1", 50);

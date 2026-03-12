@@ -6,7 +6,7 @@
 /*   By: msidry <msidry@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/09 13:26:12 by msidry            #+#    #+#             */
-/*   Updated: 2026/03/11 15:09:47 by msidry           ###   ########.fr       */
+/*   Updated: 2026/03/12 19:28:30 by msidry           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,10 @@
 #include <exception>
 #include "Form.hpp"
 
+ #ifndef DEBUGMODE
+ # define DEBUGMODE  0
+ #endif // DEBUGMODE
+ 
 class Form;
 class Bureaucrat
 {
