@@ -6,7 +6,7 @@
 /*   By: msidry <msidry@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/11 21:11:43 by msidry            #+#    #+#             */
-/*   Updated: 2026/03/12 19:23:43 by msidry           ###   ########.fr       */
+/*   Updated: 2026/03/12 20:58:26 by msidry           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,8 @@
 
 
 ShrubberyCreationForm::ShrubberyCreationForm():
-AForm("shrubbery", 145, 137),
-target("shrubbery")
+AForm("shrubbery creation", 145, 137),
+target("Default")
 {
     if (DEBUGMODE)
         std::cout << "Shrubbery Default constructor was called ." << std::endl;
@@ -26,7 +26,7 @@ target("shrubbery")
 
 
 ShrubberyCreationForm::ShrubberyCreationForm(std::string const & target):
-AForm("shrubbery", 145, 137),
+AForm("shrubbery creation", 145, 137),
 target(target)
 {
     if (DEBUGMODE)

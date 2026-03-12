@@ -6,7 +6,7 @@
 /*   By: msidry <msidry@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/11 22:02:28 by msidry            #+#    #+#             */
-/*   Updated: 2026/03/12 19:23:35 by msidry           ###   ########.fr       */
+/*   Updated: 2026/03/12 20:57:16 by msidry           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,8 @@
 
 
 PresidentialPardonForm::PresidentialPardonForm():
-AForm("Presidential", 25, 5),
-target("Presidential")
+AForm("presidential pardon", 25, 5),
+target("Default")
 {
     if (DEBUGMODE)
         std::cout << "PresidentialPardonForm Default constructor was called ." << std::endl;
@@ -25,7 +25,7 @@ target("Presidential")
 
 
 PresidentialPardonForm::PresidentialPardonForm(std::string const & target):
-AForm("Presidential", 25, 5),
+AForm("presidential pardon", 25, 5),
 target(target)
 {
     if (DEBUGMODE)

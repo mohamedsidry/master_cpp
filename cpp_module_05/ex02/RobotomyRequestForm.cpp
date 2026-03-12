@@ -6,7 +6,7 @@
 /*   By: msidry <msidry@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/11 21:37:26 by msidry            #+#    #+#             */
-/*   Updated: 2026/03/12 19:23:41 by msidry           ###   ########.fr       */
+/*   Updated: 2026/03/12 20:57:55 by msidry           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 
 RobotomyRequestForm::RobotomyRequestForm():
-AForm("Robo", 72, 45),
-target("Robo")
+AForm("robotomy request", 72, 45),
+target("Default")
 {
     if (DEBUGMODE)
         std::cout << "RobotomyRequestForm Default constructor was called ." << std::endl;
@@ -25,7 +25,7 @@ target("Robo")
 
 
 RobotomyRequestForm::RobotomyRequestForm(std::string const & target):
-AForm("Robo", 72, 45),
+AForm("robotomy request", 72, 45),
 target(target)
 {
     if (DEBUGMODE)
