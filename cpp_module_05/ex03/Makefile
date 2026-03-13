@@ -9,7 +9,7 @@ HEADERS = Bureaucrat.hpp AForm.hpp ShrubberyCreationForm.hpp RobotomyRequestForm
 SRCS = $(MAIN) Bureaucrat.cpp AForm.cpp ShrubberyCreationForm.cpp RobotomyRequestForm.cpp PresidentialPardonForm.cpp Intern.cpp
 OBJS = $(SRCS:.cpp=.o)
 
-DB_MODE = 0
+DB_MODE = 1
 
 
 %.o:%.cpp $(HEADERS)

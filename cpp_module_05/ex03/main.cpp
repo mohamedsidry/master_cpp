@@ -6,7 +6,7 @@
 /*   By: msidry <msidry@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/09 13:31:25 by msidry            #+#    #+#             */
-/*   Updated: 2026/03/12 21:14:56 by msidry           ###   ########.fr       */
+/*   Updated: 2026/03/13 14:18:11 by msidry           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,41 @@ int main(void)
         {
             std::cerr << e.what() << std::endl;
         }
+
+        try 
+        {
+            Bureaucrat staff("staff", 5);
+            Intern src;
+            AForm *form = src.makeForm("presidential pardon", "Freez");
+            if (form)
+            {
+                staff.signForm(*form);
+                staff.executeForm(*form); 
+            }
+            delete form;
+        }
+        catch (std::exception const & e)
+        {
+            std::cerr << e.what() << std::endl;
+        }
+
+        try 
+        {
+            Bureaucrat doood("Roboticizer", 5);
+            Intern src;
+            AForm *form = src.makeForm("robotomy request", "Server");
+            if (form)
+            {
+                doood.signForm(*form);
+                doood.executeForm(*form); 
+            }
+            delete form;
+        }
+        catch (std::exception const & e)
+        {
+            std::cerr << e.what() << std::endl;
+        }
+        
     }
     return (0);
 }

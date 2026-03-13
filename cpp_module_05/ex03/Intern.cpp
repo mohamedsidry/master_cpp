@@ -6,7 +6,7 @@
 /*   By: msidry <msidry@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/12 20:03:16 by msidry            #+#    #+#             */
-/*   Updated: 2026/03/12 21:13:54 by msidry           ###   ########.fr       */
+/*   Updated: 2026/03/13 14:09:28 by msidry           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ Intern::~Intern()
 AForm* Intern::makeForm(const std::string &name, const std::string &target)
 {
     int count;
+    AForm * newForm;
     t_form_map forms[] =
     {
         {"shrubbery creation", &Intern::createShrubberyCreation},
@@ -61,11 +62,15 @@ AForm* Intern::makeForm(const std::string &name, const std::string &target)
     {
         if (name == forms[i].name)
         {
-            std::cout << "Intern creates " << name << std::endl;
-            return (this->*forms[i].creator)(target);
+            newForm = (this->*forms[i].creator)(target);
+            if (!newForm)
+                std::cerr << "Intern couldn't allocate " << name << " form !" << std::endl;
+            else
+                std::cout << "Intern creates " << name << std::endl;
+            return (newForm);
         }
     }
-    std::cout << "Intern cannot create " << name << std::endl;
+    std::cout << "Intern doesn't know how to make " << name << "form ." << std::endl;
     return NULL;
 }
 
