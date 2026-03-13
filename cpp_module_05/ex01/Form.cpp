@@ -6,7 +6,7 @@
 /*   By: msidry <msidry@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/10 13:21:26 by msidry            #+#    #+#             */
-/*   Updated: 2026/03/12 19:37:10 by msidry           ###   ########.fr       */
+/*   Updated: 2026/03/13 14:22:17 by msidry           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ grade_to_execute(DEFAULT_GRADE),
 is_signed(false)
 {
     if (DEBUGMODE)
-        std::cout << "Form Default constructor was called !" << std::endl;
+        std::cout << "Form Default constructor was called ." << std::endl;
 }
 
 
@@ -39,7 +39,7 @@ is_signed(false)
     if (gts < 1 || gte < 1)
         throw Form::GradeTooHighException();
     if (DEBUGMODE)
-        std::cout << "Form Param constructor was called !" << std::endl;
+        std::cout << "Form Param constructor was called ." << std::endl;
 }
 
 Form::Form(const Form& other):
@@ -49,7 +49,7 @@ grade_to_execute(other.grade_to_execute),
 is_signed(other.is_signed)
 {
     if (DEBUGMODE)
-        std::cout << "Form Copy constructor was called !" << std::endl;
+        std::cout << "Form Copy constructor was called ." << std::endl;
 }
 
 
@@ -62,14 +62,14 @@ Form& Form::operator=(const Form& other)
     }
     return (*this);
     if (DEBUGMODE)
-        std::cout << "Form Copy Assignment operator was called !" << std::endl;
+        std::cout << "Form Copy Assignment operator was called ." << std::endl;
 }
 
 
 Form::~Form()
 {
     if (DEBUGMODE)
-        std::cout << "Form Destructor was called !" << std::endl;
+        std::cout << "Form Destructor was called ." << std::endl;
 }
 
 
