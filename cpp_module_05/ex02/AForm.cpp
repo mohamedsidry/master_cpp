@@ -23,7 +23,7 @@ grade_to_execute(DEFAULT_GRADE),
 is_signed(false)
 {
     if (DEBUGMODE)
-        std::cout << "Base Form Default constructor was called !" << std::endl;
+        std::cout << "Base Form Default constructor was called ." << std::endl;
 }
 
 
@@ -39,7 +39,7 @@ is_signed(false)
     if (gts < 1 || gte < 1)
         throw AForm::GradeTooHighException();
     if (DEBUGMODE)
-        std::cout << "Base Form Param constructor was called !" << std::endl;
+        std::cout << "Base Form Param constructor was called ." << std::endl;
 }
 
 AForm::AForm(const AForm& other):
@@ -49,7 +49,7 @@ grade_to_execute(other.grade_to_execute),
 is_signed(other.is_signed)
 {
     if (DEBUGMODE)
-        std::cout << "Base Form Copy constructor was called !" << std::endl;
+        std::cout << "Base Form Copy constructor was called ." << std::endl;
 }
 
 
@@ -57,7 +57,7 @@ is_signed(other.is_signed)
 AForm& AForm::operator=(const AForm& other)
 {
     if (DEBUGMODE)
-        std::cout << "Base Form Copy Assignment operator was called !" << std::endl;
+        std::cout << "Base Form Copy Assignment operator was called ." << std::endl;
     if (this != &other)
     {
         this->is_signed = other.is_signed;
