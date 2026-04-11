@@ -45,7 +45,7 @@ re : fclean all
 all : $(NAME)
 
 
-.PHONEY: clean
+.PHONY: clean
 
 
 
