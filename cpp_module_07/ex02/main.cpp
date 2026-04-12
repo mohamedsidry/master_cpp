@@ -1,6 +1,6 @@
 #include <iostream>
 #include "Array.hpp"
-#include "test.hpp"
+#include "User.hpp"
 
 
 
@@ -23,7 +23,7 @@ void int_on_tests(void);
 void float_on_tests(void);
 void double_on_tests(void);
 void random_test(void);
-
+void user_on_test(void);
 int main(void)
 {
     string_on_tests();
@@ -31,13 +31,46 @@ int main(void)
     float_on_tests();
     double_on_tests();
     random_test();
+    user_on_test();
 
     //atexit(ll);
     return (0);
 }
 
+template <typename T>
+void echo(T& item);
+void user_on_test(void)
+{
+    Array<User> users(5);
+    for (unsigned int i = 0; i < 5; i++)
+    {
+        users[i].setFirstName("first_name" + std::to_string(i));
+        users[i].setLastName("last_name" + std::to_string(i));
+        users[i].setMail(std::string("school-1337+student") + std::to_string(i) + "@gmail.com");
+        users[i].getSkills()[0] = "C";
+        users[i].getSkills()[1] = "C++";
+        users[i].getSkills()[2] = "Bash";
+        users[i].getSkills()[3] = "Python";
+        users[i].getSkills()[4] = "Flutter";
+        users[i].getSkills()[5] = "Java Script";
+        users[i].getSkills()[6] = "Php";
+    }
+    users.iter(echo<User>);
+}
 
 
+
+void randomize(unsigned int & ref);
+void random_test(void)
+{
+    srand(time(NULL));
+    Array<unsigned int> randoms(100);
+    randoms.iter(randomize);
+    randoms.iter(echo<unsigned int&>);
+
+    //ForEach<unsigned int, void (*)(unsigned int&)> obj; obj(randoms, randoms.size(), randomize);
+    //obj(randoms,randoms.size(), [](unsigned int &it){ std::cout << GREEN << it << RESET << ", ";});
+}
 
 void randomize(unsigned int & ref)
 {
@@ -45,23 +78,11 @@ void randomize(unsigned int & ref)
 }
 
 
-template<typename T>
-void printItem(T& ref)
+template <typename T>
+void echo(T& item)
 {
-    std::cout << ref << std::endl;
+    std::cout << PURPLE << item << " " << RESET << std::endl;
 }
-
-void random_test(void)
-{
-    srand(time(NULL));
-    Array<unsigned int> randoms(100);
-    //randoms.iter(randomize);
-    ForEach<unsigned int, void (*)(unsigned int&)> obj; obj(randoms, randoms.size(), randomize);
-    obj(randoms,randoms.size(), [](unsigned int &it){ std::cout << GREEN << it << RESET << ", ";});
-    //randoms.iter(printItem<unsigned int&>);
-    //::ForEach(randoms, randoms.size(), randomize);
-}
-
 
 
 

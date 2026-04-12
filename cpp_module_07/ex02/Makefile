@@ -4,11 +4,11 @@ CXX = c++
 CXXVERSION = -std=c++11
 CXXFLAGS = -Wall -Werror -Wextra -pedantic
 
-HEADERS = Array.hpp
+HEADERS = Array.hpp User.hpp
 TEMPLATES = Array.tpp
 OBJDIR = objects
 
-SRCS = main.cpp
+SRCS = main.cpp User.cpp
 OBJS = $(addprefix $(OBJDIR)/, $(SRCS:.cpp=.o))
 
 

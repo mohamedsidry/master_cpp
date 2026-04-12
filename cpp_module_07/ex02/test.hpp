@@ -2,8 +2,6 @@
 
 #define TEST_HPP
 
-#include "Array.hpp"
-
 // template <typename T>
 // void Array<T>::show_array(void) const
 // {

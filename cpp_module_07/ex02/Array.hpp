@@ -43,18 +43,7 @@ std::ostream& operator << (std::ostream& os, const Array<T>& ref);
 
 #include "Array.tpp"
 
-template <typename T , typename Func>
-struct  ForEach
-{
-    void operator()(Array<T>& arr , unsigned int size, Func func)
-    {
-        for (unsigned int i = 0; i < size; i++)
-        {
-            func(arr[i]);
-        }
 
-    }
-};
 
 #endif // ARRAY_HPP
 

@@ -128,7 +128,6 @@ T& Array<T>::operator[](unsigned int idx)
  * @param [in] os output stream .
  * @param [in] obj array<T> object reference .
  * @return output stream .
- * @throws Array<T>::ExceptionOutOfBounds if index out of range .
  * @note overload of operator<<
  */
 template <typename T>
@@ -160,22 +159,5 @@ const char *Array<T>::ExceptionOutOfBounds::what(void) const throw()
 {
     return "index out of bounds .";
 }
-
-
-// template <typename T>
-// void iter(Array<T>& arr, unsigned int size, void (*func)(T&))
-// {
-//     for (unsigned int i = 0; i < size; i++)
-//     {
-//         func(arr[i]);
-//     }
-// }
-
-// template <typename T, typename Func>
-// void for_each(T*arr, unsigned int size, Func func)
-// {
-//     for (unsigned int i = 0; i < size; i++)
-//         func(arr[i]);
-// }
 
 #endif // ARRAY_TPP
