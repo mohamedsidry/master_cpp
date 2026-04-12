@@ -2,9 +2,10 @@
 #define ARRAY_HPP
 
 #include <iostream>
+#include <cstdlib>
 
 /**
- * @brief Array<T> - template class that holds an array of objects .
+ * @brief Array<T> - template class that holds an array of any type of objects .
  * Detailed this class aimed to store an array of objects of any type, copy an array, retrieve an object by index .
 */
 template <typename T>
@@ -21,20 +22,39 @@ class Array
         Array(unsigned int);
         const T& operator[](unsigned int idx) const;
         T& operator[](unsigned int idx);
-        void show_array(void) const;
-        void set_seq(unsigned int);
         unsigned int size(void) const;
         class ExceptionOutOfBounds : public std::exception
         {
             public:
                 virtual const char *what(void) const throw();
         };
+        template <typename Func>
+        void iter(Func func)
+        {
+            for (unsigned int i = 0; i < size_; i++)
+            {
+                func(arr_[i]);
+            }
+        }
 };
 
 template <typename T>
-std::ostream& operator << (const std::ostream& os, const Array<T>& ref);
+std::ostream& operator << (std::ostream& os, const Array<T>& ref);
 
 #include "Array.tpp"
+
+template <typename T , typename Func>
+struct  ForEach
+{
+    void operator()(Array<T>& arr , unsigned int size, Func func)
+    {
+        for (unsigned int i = 0; i < size; i++)
+        {
+            func(arr[i]);
+        }
+
+    }
+};
 
 #endif // ARRAY_HPP
 

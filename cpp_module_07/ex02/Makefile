@@ -40,7 +40,12 @@ re : fclean all
 all : $(NAME)
 
 
-.PHONY: clean fclean
+run : $(NAME)
+	@echo $(YELLOW) "Running : " $(RED) $< $(RESET)
+	./$(NAME)
+
+
+.PHONY: clean fclean run
 
 
 # COLORS :

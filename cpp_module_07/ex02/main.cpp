@@ -22,6 +22,7 @@ void string_on_tests(void);
 void int_on_tests(void);
 void float_on_tests(void);
 void double_on_tests(void);
+void random_test(void);
 
 int main(void)
 {
@@ -29,9 +30,39 @@ int main(void)
     int_on_tests();
     float_on_tests();
     double_on_tests();
-    atexit(ll);
+    random_test();
+
+    //atexit(ll);
     return (0);
 }
+
+
+
+
+void randomize(unsigned int & ref)
+{
+    ref = rand() % 100;
+}
+
+
+template<typename T>
+void printItem(T& ref)
+{
+    std::cout << ref << std::endl;
+}
+
+void random_test(void)
+{
+    srand(time(NULL));
+    Array<unsigned int> randoms(100);
+    //randoms.iter(randomize);
+    ForEach<unsigned int, void (*)(unsigned int&)> obj; obj(randoms, randoms.size(), randomize);
+    obj(randoms,randoms.size(), [](unsigned int &it){ std::cout << GREEN << it << RESET << ", ";});
+    //randoms.iter(printItem<unsigned int&>);
+    //::ForEach(randoms, randoms.size(), randomize);
+}
+
+
 
 
 
@@ -60,7 +91,6 @@ void string_on_tests(void)
         std::cerr << e.what() << std::endl;
     }
 }
-
 
 void int_on_tests(void)
 {
