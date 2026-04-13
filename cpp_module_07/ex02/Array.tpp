@@ -21,10 +21,7 @@ template <typename T>
 Array<T>::Array(unsigned int n):
 size_(n)
 {
-    if (size_ > 0)
-        arr_ = new T[size_]();
-    else
-        arr_ = NULL;
+    arr_ = (size_ > 0) ? new T[size_]() : NULL;
 }
 
 
@@ -36,14 +33,9 @@ template <typename T>
 Array<T>::Array(const Array<T>& other):
 size_(other.size_)
 {
-    if (other.arr_)
-    {
-        this->arr_ = new T[size_]();
-        for (unsigned int i = 0; i < size_; i++)
-            this->arr_[i] = other.arr_[i];
-    }
-    else
-        this->arr_ = NULL;
+    this->arr_ = (size_ > 0) ? new T[size_]() : NULL;
+    for (unsigned int i = 0; i < size_; i++)
+        this->arr_[i] = other.arr_[i];
 }
 
 
@@ -80,14 +72,10 @@ Array<T>& Array<T>::operator=(const Array<T>& other)
     if (this != &other)
     {
         delete [] arr_;
-        arr_ = NULL;
         size_ = other.size_;
-        if (size_ > 0)
-        {
-            this->arr_ = new T[size_]();
-            for (unsigned int i = 0; i < size_; i++)
-                this->arr_[i] = other.arr_[i];
-        }
+        arr_ = (size_ > 0) ? new T[size_]() : NULL;
+        for (unsigned int i = 0; i < size_; i++)
+            this->arr_[i] = other.arr_[i];
     }
     return (*this);
 }
@@ -104,7 +92,7 @@ template <typename T>
 const T& Array<T>::operator[](unsigned int idx) const
 {
     if (idx >= this->size_)
-        throw std::exception();
+        throw Array<T>::ExceptionOutOfBounds();
     return this->arr_[idx];
 }
 
@@ -134,17 +122,18 @@ template <typename T>
 std::ostream& operator<<(std::ostream& os, const Array<T>& obj)
 {
     os << "[";
-    for (unsigned int i = 0 ; i < obj.size(); i++)
+    unsigned int size = obj.size();
+    for (unsigned int i = 0 ; i < size; i++)
     {
         os << obj[i];
-        if (i < obj.size() - 1)
+        if (i < size - 1)
             os << ", ";
     }
     os << "]";
-    if (obj.size() == 0)
+    if (size == 0)
         os << ": (Empty) .";
     else
-        os << ": ( " << obj.size() << " items ) .";
+        os << ": ( " << size << " items ) .";
     return os;
 }
 
