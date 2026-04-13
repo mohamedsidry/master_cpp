@@ -1,14 +1,14 @@
 NAME = executable
 
 CXX = c++
-CXXVERSION = -std=c++11
+CXXVERSION = -std=c++98
 CXXFLAGS = -Wall -Werror -Wextra -pedantic
 
-HEADERS = Array.hpp User.hpp
+HEADERS = Array.hpp User.hpp test.hpp
 TEMPLATES = Array.tpp
 OBJDIR = objects
 
-SRCS = main.cpp User.cpp
+SRCS = main.cpp User.cpp test.cpp
 OBJS = $(addprefix $(OBJDIR)/, $(SRCS:.cpp=.o))
 
 

@@ -1,6 +1,6 @@
 #include <iostream>
 #include "Array.hpp"
-#include "User.hpp"
+#include "test.hpp"
 
 
 
@@ -13,7 +13,6 @@ const char *RESET = "\033[0m";
 
 
 
-void ll(void);
 void header(const char *color, const char *title);
 template<typename T>
 void colored(std::ostream& os, const char *color, T& item);
@@ -22,8 +21,6 @@ void string_on_tests(void);
 void int_on_tests(void);
 void float_on_tests(void);
 void double_on_tests(void);
-void random_test(void);
-void user_on_test(void);
 int main(void)
 {
     string_on_tests();
@@ -32,57 +29,10 @@ int main(void)
     double_on_tests();
     random_test();
     user_on_test();
-
     //atexit(ll);
     return (0);
 }
 
-template <typename T>
-void echo(T& item);
-void user_on_test(void)
-{
-    Array<User> users(5);
-    for (unsigned int i = 0; i < 5; i++)
-    {
-        users[i].setFirstName("first_name" + std::to_string(i));
-        users[i].setLastName("last_name" + std::to_string(i));
-        users[i].setMail(std::string("school-1337+student") + std::to_string(i) + "@gmail.com");
-        users[i].getSkills()[0] = "C";
-        users[i].getSkills()[1] = "C++";
-        users[i].getSkills()[2] = "Bash";
-        users[i].getSkills()[3] = "Python";
-        users[i].getSkills()[4] = "Flutter";
-        users[i].getSkills()[5] = "Java Script";
-        users[i].getSkills()[6] = "Php";
-    }
-    users.iter(echo<User>);
-}
-
-
-
-void randomize(unsigned int & ref);
-void random_test(void)
-{
-    srand(time(NULL));
-    Array<unsigned int> randoms(100);
-    randoms.iter(randomize);
-    randoms.iter(echo<unsigned int&>);
-
-    //ForEach<unsigned int, void (*)(unsigned int&)> obj; obj(randoms, randoms.size(), randomize);
-    //obj(randoms,randoms.size(), [](unsigned int &it){ std::cout << GREEN << it << RESET << ", ";});
-}
-
-void randomize(unsigned int & ref)
-{
-    ref = rand() % 100;
-}
-
-
-template <typename T>
-void echo(T& item)
-{
-    std::cout << PURPLE << item << " " << RESET << std::endl;
-}
 
 
 
@@ -172,16 +122,16 @@ void double_on_tests(void)
     const Array<double> arr1(10);
     std::cout << "arr1 : " << arr1 << std::endl;
     arr0 = arr1;
-    arr0[0] = 0.5;
+    arr0[0] = 0.5f;
     std::cout << "arr0 : " << arr0 << std::endl;
     std::cout << "arr1 : " << arr1 << std::endl;
     Array<double> arr2(arr0);
-    arr2[9] = 42.42;
+    arr2[9] = 42.42f;
     std::cout << "arr0 : " << arr0 << std::endl;
     std::cout << "arr2 : " << arr2 << std::endl;
     try
     {
-        arr0[10] = -42;
+        arr0[10] = -42.0f;
     }catch(const Array<double>::ExceptionOutOfBounds& e)
     {
         colored(std::cerr, RED,"Error : ");
@@ -191,15 +141,11 @@ void double_on_tests(void)
 
 
 
-void ll(void)
-{
-    system("leaks -q executable");
-}
 
 
 void header(const char *color, const char *title)
 {
-    std::cout << color << title << RESET << std::endl;
+    colored(std::cout, color, title);
 }
 
 template<typename T>
