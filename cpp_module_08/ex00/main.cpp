@@ -1,10 +1,73 @@
 
 #include <iostream>
+#include <vector>
+#include <array>
+#include "easyfind.hpp"
 
-
+/**
+ * @brief main - Entry point of program .
+ * @return 0 on success or exit code .
+*/
 int main(void)
 {
-    std::cout << "Hello world !" << std::endl;
+
+    srand(time(NULL));
+
+    {
+        std::vector<int> vecRands(32);
+        std::clog << "\033[1;33m" << "Test 0 : " << "\033[0m" << "Vector container ." << "\033[0m" << std::endl;
+        for (std::vector<int>::iterator it = vecRands.begin(); it != vecRands.end(); it++)
+           *it = rand() % 100;
+        for (std::vector<int>::const_iterator it = vecRands.begin(); it != vecRands.end(); it++)
+            std::cout << *it <<  (it + 1 != vecRands.end() ? ", " : "\n");
+        try
+        {
+            int target = 0;
+            std::vector<int>::value_type it = easyfind<std::vector<int> >(vecRands,target);
+            std::cout << "\033[1;32m" << "East find : " << "\033[0m" << it << std::endl;
+        }catch(const std::runtime_error& e)
+        {
+            std:: cerr << "\033[1;31m" << "Error : " << "\033[0m" << e.what() << std::endl;
+        }
+    }
+
+    {
+        std::array<int, 32> arrRands;
+        std::clog << "\033[1;33m" << "Test 1 : " << "\033[0m" << "Array container ." << "\033[0m" << std::endl;
+        for (std::array<int, 32>::iterator it = arrRands.begin(); it != arrRands.end(); it++)
+            *it = rand() % 100;
+        for (std::array<int, 32>::const_iterator it = arrRands.begin(); it != arrRands.end(); it++)
+            std::cout << *it <<  (it + 1 != arrRands.end() ? ", " : "\n");
+        try
+        {
+            int target = 0;
+            std::array<int, 32>::value_type it = easyfind<std::array<int, 32> >(arrRands,target);
+            std::cout << "\033[1;32m" << "East find : " << "\033[0m" << it << std::endl;
+        }catch(const std::runtime_error& e)
+        {
+            std:: cerr << "\033[1;31m" << "Error : " << "\033[0m" << e.what() << std::endl;
+        }
+    }
+
+    {
+
+        std::clog << "\033[1;33m" << "Test 2 : " << "\033[0m" << "Vector container update first occurrence ." << "\033[0m" << std::endl;
+        std::vector<int> vecRands(32);
+        vecRands[16] = 42;
+        for (std::vector<int>::const_iterator it = vecRands.begin(); it != vecRands.end(); it++)
+            std::cout << *it <<  (it + 1 != vecRands.end() ? ", " : "\n");
+        try
+        {
+            int target = 42;
+            std::vector<int>::value_type& it = easyfind<std::vector<int> >(vecRands,target);
+            it = 1337;
+            std::cout << "\033[1;32m" << "East find : " << "\033[0m" << it << std::endl;
+        }catch(const std::runtime_error& e)
+        {
+            std:: cerr << "\033[1;31m" << "Error : " << "\033[0m" << e.what() << std::endl;
+        }
+        for (std::vector<int>::const_iterator it = vecRands.begin(); it != vecRands.end(); it++)
+            std::cout << *it <<  (it + 1 != vecRands.end() ? ", " : "\n");
+    }
     return (0);
 }
-
