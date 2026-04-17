@@ -1,4 +1,4 @@
-NAME = easyfind
+NAME = span.out
 
 CXX = c++
 CXXVERSION = -std=c++98
