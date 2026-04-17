@@ -3,6 +3,8 @@
 
 #include <stdexcept>
 
+#define ABS(x) ((x) > 0 ? (x) : -(x))
+
 template <typename Tp>
 class Span
 {
@@ -10,6 +12,9 @@ class Span
         Tp container_;
         unsigned int size_;
         unsigned int capacity_;
+
+        int min(void) const;
+        int max(void) const;
     public:
         Span();
         Span(unsigned int);
@@ -23,11 +28,22 @@ class Span
         const Tp& container(void) const {return container_;};
         Tp& container(void) {return container_;};
         void addNumber(int);
-
+        unsigned int longestSpan(void) const;
+        //unsigned int shortestSpan(void) const;
         class ExceptionFullContainer: public std::exception
         {
             public:
-                const char *what(void) const throw();
+                virtual const char *what(void) const throw();
+        };
+        class ExceptionEmptyContainer: public std::exception
+        {
+            public:
+                virtual const char *what(void) const throw();
+        };
+        class ExceptionNotEnoughNumbers: public std::exception
+        {
+            public:
+                virtual const char *what(void) const throw();
         };
 
 };
