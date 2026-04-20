@@ -4,9 +4,8 @@ CXX = c++
 CXXVERSION = -std=c++98
 CXXFLAGS = -Wall -Werror -Wextra -pedantic
 
-HEADERS = Span.hpp
-TEMPLATES = Span.tpp
-SRCS = main.cpp
+HPP = Span.hpp
+SRCS = main.cpp Span.cpp
 OBJDIR = build
 OBJS = $(addprefix $(OBJDIR)/, $(SRCS:.cpp=.o))
 
@@ -15,7 +14,7 @@ RMFLAGS = -fr
 
 
 
-$(OBJDIR)/%.o:%.cpp $(HEADERS) $(TEMPLATES)
+$(OBJDIR)/%.o:%.cpp $(HPP)
 	@mkdir -p $(dir $@)
 	@echo $(YELLOW) "Compile : " $(PURPLE) $< $(RESET)
 	@$(CXX) $(CXXVERSION) $(CXXFLAGS) -c $< -o $@

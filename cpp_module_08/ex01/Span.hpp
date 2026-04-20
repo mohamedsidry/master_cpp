@@ -1,41 +1,38 @@
 #ifndef SPAN_HPP
 # define SPAN_HPP
 
+#include <vector>
 #include <stdexcept>
+#include <algorithm>
+#include <iostream>
+#include <cstdlib>
+#include <initializer_list>
 
-#define ABS(x) ((x) > 0 ? (x) : -(x))
-
-template <typename Tp>
 class Span
 {
     private:
-        Tp container_;
-        unsigned int size_;
-        unsigned int capacity_;
-
-        int min(void) const;
-        int max(void) const;
+        std::vector<int> data_;
+        unsigned int maxSize_;
     public:
         Span();
         Span(unsigned int);
         Span(const Span&);
         Span& operator=(const Span&);
-        ~Span(){};
+        ~Span();
 
 
-        unsigned int size(void) const {return size_;};
-        unsigned int capacity(void) const {return capacity_;};
-        const Tp& container(void) const {return container_;};
-        Tp& container(void) {return container_;};
         void addNumber(int);
         unsigned int longestSpan(void) const;
-        //unsigned int shortestSpan(void) const;
-        class ExceptionFullContainer: public std::exception
+        unsigned int shortestSpan(void) const;
+        template <typename Iterator>
+        void addNumber(Iterator begin, Iterator end)
         {
-            public:
-                virtual const char *what(void) const throw();
-        };
-        class ExceptionEmptyContainer: public std::exception
+            if (std::distance(begin, end) +  data_.size() > maxSize_ )
+                throw Span::ExceptionFullContainer();
+            data_.insert(data_.end(), begin, end);
+        }
+
+        class ExceptionFullContainer: public std::exception
         {
             public:
                 virtual const char *what(void) const throw();
@@ -47,8 +44,6 @@ class Span
         };
 
 };
-
-#include "Span.tpp"
 
 #endif //SPAN_HPP
 
