@@ -6,8 +6,12 @@
 #include <algorithm>
 #include <iostream>
 #include <cstdlib>
-#include <initializer_list>
 
+/**
+ * @brief Span - class that store numbers .
+ * @details using span reserve space for N numbers  with limit protection,
+ *  and expose function to add numbers calculate the longest or shortest distance 
+ */
 class Span
 {
     private:
@@ -44,6 +48,7 @@ class Span
         };
 
 };
+
 
 #endif //SPAN_HPP
 
