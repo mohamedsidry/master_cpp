@@ -10,16 +10,15 @@ MutantStack<Tp>::MutantStack()
 
 
 template <typename Tp>
-MutantStack<Tp>::MutantStack(const MutantStack& other)
-{
-    this->c = other.c;
-}
+MutantStack<Tp>::MutantStack(const MutantStack& other):
+std::stack<Tp>(other)
+{}
 
 template <typename Tp>
 MutantStack<Tp>& MutantStack<Tp>::operator=(const MutantStack& other)
 {
     if (this != &other)
-        container_type::operator=(other.c);
+        std::stack<Tp>::operator=(other);
     return *this;
 }
 
@@ -36,9 +35,9 @@ typename MutantStack<Tp>::iterator MutantStack<Tp>::begin(void)
 }
 
 template <typename Tp>
-typename MutantStack<Tp>::const_iterator MutantStack<Tp>::begin(void) const
+typename MutantStack<Tp>::const_iterator MutantStack<Tp>::cbegin(void) const
 {
-    return this->c.begin();
+    return this->c.cbegin();
 }
 
 template <typename Tp>
@@ -48,10 +47,23 @@ typename MutantStack<Tp>::iterator MutantStack<Tp>::end(void)
 }
 
 template <typename Tp>
+typename MutantStack<Tp>::const_iterator MutantStack<Tp>::cend(void) const
+{
+    return this->c.cend();
+}
+
+template <typename Tp>
+typename MutantStack<Tp>::const_iterator MutantStack<Tp>::begin(void) const
+{
+    return this->c.cbegin();
+}
+
+template <typename Tp>
 typename MutantStack<Tp>::const_iterator MutantStack<Tp>::end(void) const
 {
-    return this->c.end();
+    return this->c.cend();
 }
+
 
 # endif // MUTANTSTACK_TPP
 

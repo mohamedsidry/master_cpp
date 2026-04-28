@@ -18,8 +18,10 @@ class MutantStack : public std::stack<Tp>
     ~MutantStack();
 
     iterator begin(void);
-    const_iterator begin(void) const;
+    const_iterator cbegin(void) const;
     iterator end(void);
+    const_iterator cend(void) const;
+    const_iterator begin(void) const;
     const_iterator end(void) const;
 };
 
