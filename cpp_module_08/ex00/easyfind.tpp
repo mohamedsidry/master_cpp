@@ -15,8 +15,7 @@
 template <typename Tp>
 typename Tp::value_type& easyfind(Tp &ref, int target)
 {
-    typename Tp::iterator ptr;
-    ptr = std::find(ref.begin(), ref.end(), target);
+    typename Tp::iterator ptr = std::find(ref.begin(), ref.end(), target);
     if (ptr != ref.end())
         return (*ptr);
     throw std::runtime_error("Could not find target in container .");
@@ -33,8 +32,7 @@ typename Tp::value_type& easyfind(Tp &ref, int target)
 template <typename Tp>
 const typename Tp::value_type& easyfind(const Tp &ref, int target)
 {
-    typename Tp::iterator ptr;
-    ptr = std::find(ref.begin(), ref.end(), target);
+    typename Tp::const_iterator ptr = std::find(ref.begin(), ref.end(), target);
     if (ptr != ref.end())
         return (*ptr);
     throw std::runtime_error("Could not find target in container .");
