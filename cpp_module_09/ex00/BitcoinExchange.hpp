@@ -16,15 +16,15 @@
 */
 class BitcoinExchange
 {
-    static std::string DEFAULT_DB;
     private:
         std::string database_src_;
         std::map<unsigned long, double> database_;
         void init(void);
-        void load_database(std::ifstream&);
-        void data_processing(std::ifstream &) const;
+        void load(std::ifstream&);
+        void process(std::ifstream &) const;
 
     public:
+        static std::string DEFAULT_DB;
         BitcoinExchange();
         BitcoinExchange(const char *);
         BitcoinExchange(const std::string&);
@@ -33,8 +33,6 @@ class BitcoinExchange
         ~BitcoinExchange();
         void evaluate(const char *file) const;
         void evaluate(const std::string& file) const;
-
-
         static std::string serialize(const std::pair<unsigned long, double>& pval, const std::string& sep);
         static std::pair<unsigned long, double> deserialize(const std::string& sval, const std::string& sep);
         static std::string serialize_date(unsigned long date) ;
@@ -43,7 +41,6 @@ class BitcoinExchange
         static double deserialize_value(const std::string&);
         static bool is_valid_date(const std::string& );
         static bool is_valid_value(const std::string& );
-        static bool isLeap(int year);
         static std::string trim(const std::string& line);
         class FileException : public std::exception
         {
@@ -65,8 +62,12 @@ class BitcoinExchange
             public:
                 const char * what(void) const throw();
         };
-
         class EmptyDatabaseException : public std::exception
+        {
+            public:
+                const char * what(void) const throw();
+        };
+        class BadHeaderException : public std::exception
         {
             public:
                 const char * what(void) const throw();

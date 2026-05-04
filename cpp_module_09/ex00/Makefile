@@ -53,11 +53,8 @@ run : $(NAME)
 
 
 
-test :
-	make runtest -C test/
 
-
-.PHONY: clean run test
+.PHONY: clean fclean run
 
 
 

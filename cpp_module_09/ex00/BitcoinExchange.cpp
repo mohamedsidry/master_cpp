@@ -2,32 +2,48 @@
 
 std::string BitcoinExchange::DEFAULT_DB = "data.csv";
 
-
+/**
+ * @brief BitcoinExchange - default constructor.
+*/
 BitcoinExchange::BitcoinExchange()
 :database_src_(BitcoinExchange::DEFAULT_DB)
 {
     init();
 }
 
+/**
+ * @brief BitcoinExchange - param constructor.
+ * @param [in] path database file.
+*/
 BitcoinExchange::BitcoinExchange(const char *path)
 :database_src_(path)
 {
     init();
 }
 
-
+/**
+ * @brief BitcoinExchange - param constructor.
+ * @param [in] path database file.
+*/
 BitcoinExchange::BitcoinExchange(const std::string& path)
 :database_src_(path)
 {
     init();
 }
 
-
+/**
+ * @brief BitcoinExchange - copy constructor.
+ * @param [in] other object to copy from.
+*/
 BitcoinExchange::BitcoinExchange(const BitcoinExchange& other)
 :database_src_(other.database_src_), database_(other.database_)
 {}
 
-
+/**
+ * @brief BitcoinExchange - copy asign constructor.
+ * @param [in] other object to copy from.
+ * @return object reference.
+*/
 BitcoinExchange& BitcoinExchange::operator=(const BitcoinExchange& other)
 {
     if (this != &other)
@@ -38,30 +54,36 @@ BitcoinExchange& BitcoinExchange::operator=(const BitcoinExchange& other)
     return *this;
 }
 
-
+/**
+ * @brief BitcoinExchange - destructor.
+*/
 BitcoinExchange::~BitcoinExchange()
 {}
 
 
 
-
+/**
+ * @brief init - prepare database file to be loaded .
+ * @details it trys to open database file display error in case of failure.
+ * 
+ * @throws FileException when unable to open database file.
+*/
 void BitcoinExchange::init(void)
 {
     std::ifstream ifs;
-    try
-    {
-        ifs.open(database_src_, std::ifstream::in);
-        if (ifs.fail())
-            throw BitcoinExchange::FileException();
-        load_database(ifs);
-        ifs.close();
-    }catch (const std::exception& e)
-    {
-        std::cerr << "\033[1;31mError : \033[0m" << e.what() << database_src_ << std::endl;
-    }
+    ifs.open(database_src_, std::ifstream::in);
+    if (ifs.fail())
+        throw BitcoinExchange::FileException();
+    load(ifs);
+    ifs.close();
 }
 
-void BitcoinExchange::load_database(std::ifstream& ifs)
+/**
+ * @brief load - loads data from given file to map.
+ * @param [in] ifs opened file stream.
+ * @details it reads file content line by line validate and store it to database.
+*/
+void BitcoinExchange::load(std::ifstream& ifs)
 {
     std::string buffer;
     std::pair<unsigned long, double> ele;
@@ -75,8 +97,8 @@ void BitcoinExchange::load_database(std::ifstream& ifs)
         {
             if (trim(buffer) != "date,exchange_rate")
             {
-                std::cerr << "\033[1;31mError : \033[0m" << "bad header => " << buffer << std::endl;
-                return;
+                ifs.close();
+                throw BitcoinExchange::BadHeaderException();
             }
             ++idx;
             continue;
@@ -84,15 +106,20 @@ void BitcoinExchange::load_database(std::ifstream& ifs)
         try
         {
             ele = BitcoinExchange::deserialize(buffer, ",");
-            database_.insert(ele);
+            database_[ele.first] = ele.second;
         } catch (const std::exception& e)
         {
-            std::cerr << "\033[1;31mError : " << "\033[0m" << e.what() << buffer << std::endl;
+            std::cerr << "Error : " << e.what() << buffer << std::endl;
         }
     } 
 }
 
-void BitcoinExchange::data_processing(std::ifstream& ifs) const 
+/**
+ * @brief process - process data from given open file stream.
+ * @param [in] ifs opened file stream.
+ * @details it reads file content line by line validate and evaluate btc value.
+*/
+void BitcoinExchange::process(std::ifstream& ifs) const 
 {
     std::string buffer;
     std::pair<unsigned long, double> current;
@@ -106,7 +133,7 @@ void BitcoinExchange::data_processing(std::ifstream& ifs) const
         {
             if (trim(buffer) != "date | value")
             {
-                std::cerr << "\033[1;31mError : \033[0m" << "bad header => " << buffer << std::endl;
+                std::cerr << "Error : " << "bad header => " << buffer << std::endl;
                 return;
             }
             ++idx;
@@ -129,16 +156,19 @@ void BitcoinExchange::data_processing(std::ifstream& ifs) const
             std::cout << serialize_date(current.first) << " => " << serialize_value(current.second * it->second)  << std::endl; 
         } catch(const BitcoinExchange::BadInputException& e)
         {
-            std::cout << "\033[1;31mError : \033[0m" << e.what() << "=> " << buffer << std::endl;
+            std::cout << "Error : " << e.what() << buffer << std::endl;
         }
         catch(const std::exception& e)
         {
-            std::cerr << "\033[1;31mError : \033[0m" << e.what() << std::endl;
+            std::cerr << "Error : " << e.what() << std::endl;
         }
     };
 }
 
-
+/**
+ * @brief evaluate - evaluate data of given file.
+ * @param [in] ifs file contain data of format 'date | value'.
+*/
 void BitcoinExchange::evaluate(const char *file) const
 {
     try
@@ -149,27 +179,36 @@ void BitcoinExchange::evaluate(const char *file) const
         ifs.open(file, std::ifstream::in);
         if (ifs.fail())
             throw BitcoinExchange::FileException();
-        data_processing(ifs);
+        process(ifs);
         ifs.close();
     } catch(const BitcoinExchange::FileException& e)
     {
-        std::cout << "\033[1;31mError : \033[0m" << e.what() << file << std::endl;
+        std::cout << "Error : " << e.what() << file << std::endl;
     }
      catch(const BitcoinExchange::EmptyDatabaseException& e)
     {
-        std::cout << "\033[1;31mError : \033[0m" << e.what()<< std::endl;
+        std::cout << "Error : " << e.what()<< std::endl;
     }
 }
 
+/**
+ * @brief evaluate - evaluate data of given file.
+ * @param [in] ifs file contain data of format 'date | value'.
+*/
 void BitcoinExchange::evaluate(const std::string& file) const
 {
     evaluate(file.c_str());
 }
 
 
-
 // Static methods
-
+/**
+ * @brief deserialize - convert data from string to pair.
+ * @param [in] str string with key and value and separator.
+ * @param [in] sep separator between key and value.
+ * @return pair of date and value.
+ * @throw BadInputException.
+*/
 std::pair<unsigned long, double> BitcoinExchange::deserialize(const std::string& str, const std::string& sep)
 {
     std::string date, exchange_rate;
@@ -186,11 +225,23 @@ std::pair<unsigned long, double> BitcoinExchange::deserialize(const std::string&
     return ele;
 }
 
+/**
+ * @brief serialize - convert pair to string format.
+ * @param [in] pval pair with date and value .
+ * @param [in] sep separator between key and value.
+ * @return string date+sep+value.
+*/
 std::string BitcoinExchange::serialize(const std::pair<unsigned long, double>& pval, const std::string& sep)
 {
     return BitcoinExchange::serialize_date(pval.first) + sep + BitcoinExchange::serialize_value(pval.second);
 }
 
+/**
+ * @brief deserialize_date - convert date from string to unsigned long format.
+ * @param [in] date string date.
+ * @return date.
+ * @throw BadInputException.
+*/
 unsigned long BitcoinExchange::deserialize_date(const std::string& date)
 {
     std::string yyyy, mm, dd;
@@ -208,6 +259,11 @@ unsigned long BitcoinExchange::deserialize_date(const std::string& date)
     return (std::stoul(yyyy) << 16) | (std::stoul(mm)   << 8)  | (std::stoul(dd));
 }
 
+/**
+ * @brief serialize_date - convert date to string format.
+ * @param [in] val date.
+ * @return string yyyy+mm+dd.
+*/
 std::string BitcoinExchange::serialize_date(unsigned long val)
 {
     unsigned long year  = (val >> 16);
@@ -225,6 +281,12 @@ std::string BitcoinExchange::serialize_date(unsigned long val)
     return yyyy + "-" + mm + "-" + dd;
 }
 
+/**
+ * @brief deserialize_value - convert date from string to double format.
+ * @param [in] value string btc value.
+ * @return date.
+ * @throw BadInputException.
+*/
 double   BitcoinExchange::deserialize_value(const std::string& value)
 {
     double fval;
@@ -237,13 +299,24 @@ double   BitcoinExchange::deserialize_value(const std::string& value)
     return (fval);
 }
 
-std::string BitcoinExchange::serialize_value(double fval)
+/**
+ * @brief serialize_value - convert value to string format.
+ * @param [in] dval btc value.
+ * @return string value with precision of 2 .
+*/
+std::string BitcoinExchange::serialize_value(double dval)
 {
     std::ostringstream oss;
-    oss << std::fixed << std::setprecision(2) << fval;
+    oss << std::fixed << std::setprecision(2) << dval;
     return oss.str();
 }
 
+
+/**
+ * @brief is_valid_value - validate value.
+ * @param [in] value string btc value.
+ * @return true or false.
+*/
 bool BitcoinExchange::is_valid_value(const std::string& sval)
 {
 
@@ -266,6 +339,11 @@ bool BitcoinExchange::is_valid_value(const std::string& sval)
     return digits > 0;
 }
 
+/**
+ * @brief is_valid_date - validate date.
+ * @param [in] s string format {yyyy-mm-dd}.
+ * @return true or false.
+*/
 bool BitcoinExchange::is_valid_date(const std::string& s)
 {
     if (s.size() != 10 || s[4] != '-' || s[7] != '-')
@@ -275,24 +353,21 @@ bool BitcoinExchange::is_valid_date(const std::string& s)
         if (!std::isdigit(s[i]))
             return false;
     }
-    int year  = std::stoi(s.substr(0, 4));
     int month = std::stoi(s.substr(5, 2));
     int day   = std::stoi(s.substr(8, 2));
     if (month < 1 || month > 12) return false;
     if (day < 1) return false;
     int daysInMonth[] = {31,28,31,30,31,30,31,31,30,31,30,31};
-    if (month == 2 && isLeap(year))
-        daysInMonth[1] = 29;
     if (day > daysInMonth[month - 1])
         return false;
     return true;
 }
 
-bool BitcoinExchange::isLeap(int year) 
-{
-    return (year % 4 == 0 && year % 100 != 0) || (year % 400 == 0);
-}
-
+/**
+ * @brief trim - remove extra spaces from start and end of string.
+ * @param [in] line string to remove space from.
+ * @return string without spaces.
+*/
 std::string BitcoinExchange::trim(const std::string& line)
 {
     const char* WhiteSpace = " \t\v\r\n";
@@ -304,28 +379,64 @@ std::string BitcoinExchange::trim(const std::string& line)
 }
 
 
-// Exceptions 
+/**
+ * @override
+ * @brief what - get exception error message .
+ * @return exception error message .
+*/
 const char *BitcoinExchange::FileException::what(void) const throw()
 {
-    return ("Couldn't open file : ");
+    return ("Couldn't open file => ");
 }
 
+/**
+ * @override
+ * @brief what - get exception error message .
+ * @return exception error message .
+*/
 const char *BitcoinExchange::NegativeNumberException::what(void) const throw()
 {
     return ("Not a positive number.");
 }
 
+/**
+ * @override
+ * @brief what - get exception error message .
+ * @return exception error message .
+*/
 const char *BitcoinExchange::TooLargeNumberException::what(void) const throw()
 {
     return ("too large a number.");
 }
 
+/**
+ * @override
+ * @brief what - get exception error message .
+ * @return exception error message .
+*/
 const char *BitcoinExchange::BadInputException::what(void) const throw()
 {
-    return ("Bad input ");
+    return ("Bad input => ");
 }
 
+/**
+ * @override
+ * @brief what - get exception error message .
+ * @return exception error message .
+*/
 const char *BitcoinExchange::EmptyDatabaseException::what(void) const throw()
 {
     return ("Empty database.");
 }
+
+
+/**
+ * @override
+ * @brief what - get exception error message .
+ * @return exception error message .
+*/
+const char *BitcoinExchange::BadHeaderException::what(void) const throw()
+{
+    return ("Bad Header => ");
+}
+
