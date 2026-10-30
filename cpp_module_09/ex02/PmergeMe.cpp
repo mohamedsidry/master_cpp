@@ -1,21 +1,37 @@
 #include "PmergeMe.hpp"
 
 
+/**
+ * @brief PmergeMe default constructor .
+*/
+
 PmergeMe::PmergeMe(){}
 
 
-PmergeMe::PmergeMe(char *argv[])
+/**
+ * @brief PmergeMe param constructor .
+ * @param [in] program argv list.
+ * @param [in] program argc.
+ */
+PmergeMe::PmergeMe(char *argv[], int size)
 {
-    for (int i = 0; argv[i] != NULL; i++)
+    for (int i = 1; i < size; i++)
     {
         std::string tmp(argv[i]);
         if (!(PmergeMe::isValidInt(tmp)))
             throw PmergeMe::InputException();
         elements.push_back(std::atoi(argv[i]));
     }
+    if (elements.size() == 0)
+        throw PmergeMe::EmptyException();
 }
 
 
+/**
+ * @brief PmergeMe copy constructor .
+ * @param [in] program argv list.
+ * @param [in] program argc.
+ */
 
 PmergeMe::PmergeMe(const PmergeMe& copy):
 elements(copy.elements)
@@ -23,6 +39,11 @@ elements(copy.elements)
 
 
 
+/**
+ * @brief PmergeMe copy assignment operator .
+ * @param [in] program argv list.
+ * @param [in] program argc.
+ */
 PmergeMe& PmergeMe::operator=(const PmergeMe& other)
 {
     if (this != &other)
@@ -31,10 +52,17 @@ PmergeMe& PmergeMe::operator=(const PmergeMe& other)
 }
 
 
+/**
+ * @brief PmergeMe default destructor .
+*/
 PmergeMe::~PmergeMe(){}
 
 
-
+/**
+ * @brief isValidInt check if valid int .
+ * @param [in] string number to check.
+ * @return true if number is positive and within INT_MAX range.
+*/
 bool PmergeMe::isValidInt(std::string& str)
 {
     unsigned long current = 0;
@@ -50,14 +78,42 @@ bool PmergeMe::isValidInt(std::string& str)
     return (true);
 }
 
+
+/**
+ * @brief what get the error message for invalid inputs .
+ * @return error message.
+*/
 const char *PmergeMe::InputException::what() const throw()
 {
     return ("Invalid input: all given numbers should be positive and under INT_MAX");
 }
 
+/**
+ * @brief InputException default destructor .
+*/
 PmergeMe::InputException::~InputException()throw(){}
 
+/**
+ * @brief what get the error message for empty inputs .
+ * @return error message.
+*/
+const char *PmergeMe::EmptyException::what() const throw()
+{
+    return ("Nothing to sort .");
+}
 
+/**
+ * @brief EmptyException default destructor .
+*/
+PmergeMe::EmptyException::~EmptyException()throw(){}
+
+
+/**
+ * @brief  timediff_us callculate time different in mecroseconds .
+ * @param [in] start time.
+ * @param [in] end time.
+ * @return time between start and end in mecroseconds.
+*/
 double PmergeMe::timediff_us( const struct timespec& start, const struct timespec& end) const
 {
     double seconds = end.tv_sec - start.tv_sec;
@@ -65,53 +121,109 @@ double PmergeMe::timediff_us( const struct timespec& start, const struct timespe
     return seconds * 1000000.0 + nanoseconds / 1000.0;
 }
 
-void PmergeMe::compareVectorAndList(void) const
+
+
+/**
+ * @brief  banchMarkVectorListDetailed compaire time taken to sort list and vector using ford-johnson with detailed info .
+*/
+void PmergeMe::banchMarkVectorListDetailed(void) const
+{
+
+    std::string RED, GREEN, YELLOW, BLUE, PURPLE, RESET;
+
+    RED = "\033[1;31m";
+    GREEN = "\033[1;32m";
+    YELLOW = "\033[1;33m";
+    BLUE = "\033[1;34m";
+    PURPLE = "\033[1;35m";
+    RESET = "\033[0m";
+    
+    int v_compare_count = 0;
+    struct timespec v_stime, v_itime, v_etime;
+    
+    int l_compare_count = 0;
+    struct timespec l_stime, l_itime , l_etime;
+    
+    clock_gettime(CLOCK_MONOTONIC, &v_stime);
+    v_int v_ele = serialize<v_int>();
+    clock_gettime(CLOCK_MONOTONIC, &v_itime);
+    ford_johnson_vector(v_ele, v_compare_count);
+    clock_gettime(CLOCK_MONOTONIC, &v_etime);
+    
+    
+    clock_gettime(CLOCK_MONOTONIC, &l_stime);
+    l_int l_ele = serialize<l_int>();
+    clock_gettime(CLOCK_MONOTONIC, &l_itime);
+    ford_johnson_list(l_ele, l_compare_count);
+    clock_gettime(CLOCK_MONOTONIC, &l_etime);
+    
+
+    std::cout << GREEN << std::endl;
+    std::cout << "************************************************************************************************************" << std::endl;
+    std::cout << "****************************************** ford johnson banchmark ******************************************" << std::endl;
+    std::cout << "************************************************************************************************************" << std::endl;
+    std::cout << "* UNSORTED ELEMENTS : " << RED;
+    for (size_t i = 0; i < elements.size(); i++)
+        std::cout << elements[i] << (((i + 1) < elements.size())  ? ", " : "");
+    std::cout << GREEN << std::endl;
+    std::cout << "* SORTED ELEMENTS VECTOR : " << PURPLE;
+    for (size_t i = 0; i < v_ele.size(); i++)
+        std::cout << v_ele[i] << (((i + 1) < v_ele.size())  ? ", " : "");
+    std::cout << GREEN << std::endl;
+    std::cout << "* SORTED ELEMENTS LIST   : " << YELLOW;
+    for (size_t i = 0; i < v_ele.size(); i++)
+        std::cout << *elementByIndex(l_ele, i) << (((i + 1) < v_ele.size())  ? ", " : "");
+    std::cout << GREEN << std::endl;
+    std::cout << "* CONTAINER SIZE : "  << BLUE << elements.size()  << GREEN << std::endl;
+    std::cout << "* BOTH LIST AND VECTOR ARE SORTED : " << (is_sorted<std::list<int> >(l_ele) && is_sorted<std::vector<int> >(v_ele)  ? "TRUE" : "FALSE") << std::endl;
+    std::cout << "* TIME TOOK TO INIT WITH VECTOR : " << BLUE << std::fixed << std::setprecision(5) << timediff_us(v_stime, v_itime) << " μs" << GREEN << std::endl;
+    std::cout << "* TIME TOOK TO SORT WITH VECTOR : " << PURPLE << std::fixed << std::setprecision(5) << timediff_us(v_stime, v_etime) << " μs" << GREEN << std::endl;
+    std::cout << "* COMPARISONS TOOK TO SORT WITH VECTOR  : " << BLUE << v_compare_count << GREEN << std::endl;
+    std::cout << "* TIME TOOK TO INIT WITH LIST   : " << BLUE << std::fixed << std::setprecision(5) << timediff_us(l_stime, l_itime) << " μs" << GREEN << std::endl;
+    std::cout << "* TIME TOOK TO SORT WITH LIST   : " << YELLOW << std::fixed << std::setprecision(5) << timediff_us(l_stime, l_etime) << " μs" << GREEN << std::endl;
+    std::cout << "* COMPARISONS TOOK TO SORT WITH LIST    : " << BLUE << l_compare_count  << GREEN << std::endl;
+    std::cout << "* TIME DIFF BETWEEN LIST AND VECTOR : " << RED << std::fixed << std::setprecision(5) << (timediff_us(l_stime, l_etime)  > timediff_us(v_stime, v_etime) ?  timediff_us(l_stime, l_etime)  - timediff_us(v_stime, v_etime) : timediff_us(v_stime, v_etime)  - timediff_us(l_stime, l_etime)) << " μs" << GREEN << std::endl;
+    std::cout << "* TOTAL TIME DIFF PERCENTAGE  : " << RED << "-" << (timediff_us(l_stime, l_etime)  > timediff_us(v_stime, v_etime) ? ((timediff_us(l_stime, l_etime)  - timediff_us(v_stime, v_etime)) * 100 / timediff_us(l_stime, l_etime)) : ((timediff_us(v_stime, v_etime)  - timediff_us(l_stime, l_etime)) * 100 / timediff_us(v_stime, v_etime)) ) << " %" << GREEN << std::endl;
+    std::cout << "* WHICH ONE BETTER : " << RED << (timediff_us(l_stime, l_etime)  > timediff_us(v_stime, v_etime) ? "{VECTOR}" : "{LIST}") << GREEN << std::endl;
+    std::cout << "************************************************************************************************************" << std::endl;
+    std::cout << RESET << std::endl;
+
+}
+
+
+/**
+ * @brief  banchMarkVectorListDetailed compaire time taken to sort list and vector using ford-johnson .
+*/
+void PmergeMe::banchMarkVectorList(void) const
 {
     v_int v_ele = serialize<v_int>();
     l_int l_ele = serialize<l_int>();
-
+    
     int v_compare_count = 0;
     struct timespec v_stime, v_etime;
-
-
+    
     int l_compare_count = 0;
     struct timespec l_stime, l_etime;
     
     clock_gettime(CLOCK_MONOTONIC, &v_stime);
     ford_johnson_vector(v_ele, v_compare_count);
     clock_gettime(CLOCK_MONOTONIC, &v_etime);
-
     
-
+    
     clock_gettime(CLOCK_MONOTONIC, &l_stime);
     ford_johnson_list(l_ele, l_compare_count);
     clock_gettime(CLOCK_MONOTONIC, &l_etime);
-    
-    std::cout << std::endl << "****************************************************" << std::endl;
-    if (is_sorted<v_int>(v_ele))
-        std::cout << "VECTOR : " << "Ok" << std::endl;
-    else
-        std::cout << "VECTOR : " << "KO" << std::endl;
-    // std::cout << "VECTOR : " << "[";
-    // for (std::vector<int>::iterator it = v_ele.begin(); it != v_ele.end(); it++)
-    //     std::cout << *it << ", ";
-    // std::cout << "]" << std::endl;
-    std::cout << "VECTOR TIME TOOK  : " << std::fixed << std::setprecision(5) << timediff_us(v_stime, v_etime) << " us" << std::endl;
-    std::cout << "VECTOR COMPS TOOK : " << v_compare_count << std::endl;
 
-    std::cout << std::endl << "****************************************************" << std::endl;
-
-    if (is_sorted<l_int>(l_ele))
-        std::cout << "List : " << "Ok" << std::endl;
-    else
-        std::cout << "List : " << "KO" << std::endl;
-
-    // std::cout << "LIST  : " << "[";
-    // for (std::list<int>::iterator it = l_ele.begin(); it != l_ele.end(); it++)
-    //     std::cout << *it << ", ";
-    // std::cout << "]" << std::endl;
-    std::cout << "LIST TIME TOOK  : " << std::fixed << std::setprecision(5) << timediff_us(l_stime, l_etime) << " us" << std::endl;
-    std::cout << "LIST COMPS TOOK : " << l_compare_count << std::endl;
+    std::cout << "Before:";
+    for (size_t i = 0; i < elements.size(); i++)
+        std::cout << " " << elements[i];
+    std::cout << std::endl;
+    std::cout << "After:";
+    for (size_t i = 0; i < v_ele.size(); i++)
+        std::cout << " " << v_ele[i];
+    std::cout << std::endl;
+    std::cout << "Time to process a range of " << v_ele.size() << " elements with std::vector<int> : " << std::fixed << std::setprecision(5) << timediff_us(v_stime, v_etime) << " μs" << std::endl;
+    std::cout << "Time to process a range of " << l_ele.size() << " elements with std::list<int> : " << std::fixed << std::setprecision(5) << timediff_us(l_stime, l_etime) << " μs" << std::endl;
 
 }
 
@@ -121,7 +233,11 @@ void PmergeMe::compareVectorAndList(void) const
 
 
 
-
+/**
+ * @brief  ford_johnson_vector sort vector with ford-johnson algorithm  .
+ * @param [in] items vector of numbers.
+ * @param [in, out] count counter for number of comparisons  .
+*/
 void PmergeMe::ford_johnson_vector(std::vector<int>& items, int& count) const
 {
     if (items.size() <= 1)
@@ -176,6 +292,12 @@ void PmergeMe::ford_johnson_vector(std::vector<int>& items, int& count) const
 }
 
 
+
+/**
+ * @brief  ford_johnson_list sort vector with ford-johnson algorithm  .
+ * @param [in] items list of numbers.
+ * @param [in, out] count counter for number of comparisons  .
+*/
 void PmergeMe::ford_johnson_list(std::list<int>& items, int& count) const
 {
     if (items.size() <= 1)
@@ -235,6 +357,12 @@ void PmergeMe::ford_johnson_list(std::list<int>& items, int& count) const
 }
 
 
+/**
+ * @brief  list_range calculate the range from start to target element.
+ * @param [in] chain list of numbers.
+ * @param [in] target element.
+ * @return range from start to target
+*/
 size_t PmergeMe::list_range(std::list<int>& chain, std::list<int>::iterator end) const
 {
     size_t i = 0;
@@ -248,6 +376,14 @@ size_t PmergeMe::list_range(std::list<int>& chain, std::list<int>::iterator end)
 }
 
 
+
+/**
+ * @overload 
+ * @brief  elementByIndex get item in index.
+ * @param [in] itmes list of items.
+ * @param [in] idx element position.
+ * @return item in that index .
+*/
 std::list<bool>::iterator PmergeMe::elementByIndex(std::list<bool>& items, size_t idx) const
 {
     size_t i = 0;
@@ -258,6 +394,14 @@ std::list<bool>::iterator PmergeMe::elementByIndex(std::list<bool>& items, size_
     return (items.end());
 }
 
+/**
+ * @overload 
+ * @brief  elementByIndex get item in index.
+ * @param [in] itmes list of itmes.
+ * @param [in] idx element position.
+ * @return item in that index .
+
+*/
 std::list<int>::iterator PmergeMe::elementByIndex(std::list<int>& items, size_t idx) const
 {
     size_t i = 0;
@@ -267,6 +411,14 @@ std::list<int>::iterator PmergeMe::elementByIndex(std::list<int>& items, size_t 
             return (it);
     return (items.end());
 }
+
+/**
+ * @overload 
+ * @brief  elementByIndex get item in index.
+ * @param [in] pairs list of items.
+ * @param [in] idx element position.
+ * @return item in that index .
+*/
 std::list<std::pair<int, int> >::iterator PmergeMe::elementByIndex(std::list<std::pair<int, int> >& pairs, size_t idx) const
 {
     size_t i = 0;
@@ -280,7 +432,14 @@ std::list<std::pair<int, int> >::iterator PmergeMe::elementByIndex(std::list<std
 
 
 
-
+/**
+ * @overload 
+ * @brief  binary_insert_vector insert number to vector with binary insertion algorithm .
+ * @param [in, out] chain vector of numbers.
+ * @param [in] end range of insertion.
+ * @param [in] value number to insert position.
+ * @param [in, out] count counter for number of comparisons  .
+*/
 void PmergeMe::binary_insert_vector(std::vector<int>& chain, size_t end, int value, int& count) const
 {
     size_t lo = 0, hi = end;
@@ -296,6 +455,15 @@ void PmergeMe::binary_insert_vector(std::vector<int>& chain, size_t end, int val
     chain.insert(chain.begin() + lo, value);
 }
 
+
+/**
+ * @overload 
+ * @brief  binary_insert_list insert number to list with binary insertion algorithm .
+ * @param [in, out] chain list of numbers.
+ * @param [in] end range of insertion.
+ * @param [in] value number to insert position.
+ * @param [in, out] count counter for number of comparisons  .
+*/
 void PmergeMe::binary_insert_list(std::list<int>& chain, size_t end, int value, int& count) const
 {
     size_t lo = 0, hi = end;
@@ -312,6 +480,12 @@ void PmergeMe::binary_insert_list(std::list<int>& chain, size_t end, int value, 
 }
 
 
+/**
+ * @overload 
+ * @brief  insertion_order generate a vector of indexes in which the pend elements should be pushed to cost less comparisons using jackobsthal algorithm .
+ * @param [in] size of conatiner .
+ * @return jackobsthal sequances in vector .
+ */
 std::vector<size_t> PmergeMe::insertion_order(size_t m) const
 {
     std::vector<size_t> order;
@@ -330,6 +504,14 @@ std::vector<size_t> PmergeMe::insertion_order(size_t m) const
 }
 
 
+/**
+ * @overload 
+ * @brief  sorted_pair takes to numbers compaire and form a pair where the bigger in 1st place and small in 2nd place .
+ * @param [in] a number .
+ * @param [in] b number .
+ * @param [in] counter number .
+ * @return  paire where a is in 1st palce and b in 2nd place .
+ */
 std::pair<int, int> PmergeMe::sorted_pair(int a, int b, int &counter) const
 {
     std::pair<int, int> p(a, b);

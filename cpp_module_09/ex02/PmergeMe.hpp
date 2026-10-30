@@ -12,6 +12,17 @@
 #include <iomanip>
 
 
+/**
+* @brife: PmergeMe is a place holder for random  vector of ints that compaire time complexity for sorting list and vector of random numbers.
+* @detail: the goal of this project it to implement ford-johnson or merge insertion algorithm to sort random numbers,
+* at first we create two containers one for list and one for vector , we picked these two from other option becuase they use different structure to represent data in memory ,
+* ford-jhonson algo depend on spliting the numbers to pairs then sort these pairs where 1st is bigger or 2nd is bigger depends on you implementation, in our case big is first
+* then push these bigger parts to a new container then the function keep call it self on the new container until hit the base case which is only one item in container 
+* after that we used Jacobsthal sequence to group numbers in portions that cost less comparisons to insert when range grows , after generating these sequence 
+* base on the Jacobsthal sequence we push second parts of the pairs + the straggler a.k.a leftover when numbers are odd 
+* finally we have sorted the numbers with the min possible comparisons .
+ 
+*/
 class PmergeMe
 {
     private:
@@ -39,7 +50,7 @@ class PmergeMe
         typedef std::vector<std::pair <int, int> >   v_pair;
         typedef std::list<std::pair <int, int> >     l_pair;
         PmergeMe();
-        PmergeMe(char *input[]);
+        PmergeMe(char *input[], int size);
         PmergeMe(const PmergeMe& copy);
         PmergeMe& operator=(const PmergeMe& other);
         ~PmergeMe();
@@ -76,7 +87,14 @@ class PmergeMe
                 const char *what(void) const throw();
                 virtual ~InputException() throw();
         };
-        void compareVectorAndList(void) const;
+        class EmptyException: public std::exception
+        {
+            public:
+                const char *what(void) const throw();
+                virtual ~EmptyException() throw();
+        };
+        void banchMarkVectorList(void) const;
+        void banchMarkVectorListDetailed(void) const;
 
         /**
             NOTE: Basic merge sort used for comparing time and operation count .

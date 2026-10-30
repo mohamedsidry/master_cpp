@@ -2,18 +2,33 @@
 
 
 
+/**
+ * @brief main - entry point of program .
+ * @param [in] argc arguments count .
+ * @param [in] argv array of arguments .
+ * 
+ * @return 0 on success 1 on failure .
+*/
 
 int main(int argc, char *argv[])
 {
-    (void)argc;
     try
     {
-        PmergeMe pm(&argv[1]);
-        pm.compareVectorAndList();
-        
+        PmergeMe pm(argv, argc);
+        //pm.banchMarkVectorList();
+        pm.banchMarkVectorListDetailed();
     } catch (const PmergeMe::InputException& e)
     {
         std::cerr << "Error: " << e.what() << std::endl;
+        return (EXIT_FAILURE);
+    }
+    catch (const PmergeMe::EmptyException& e)
+    {
+        std::cout << "Note: " << e.what() << std::endl;
+    }
+    catch (const std::exception& e)
+    {
+        std::cout << "Error: " << e.what() << std::endl;
         return (EXIT_FAILURE);
     }
     return (EXIT_SUCCESS);
