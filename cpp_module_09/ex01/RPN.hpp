@@ -6,6 +6,7 @@
 #include <exception>
 #include <iostream>
 #include <iomanip>
+#include <algorithm>
 class RPN
 {
     static std::string TOKENS;

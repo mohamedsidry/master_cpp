@@ -21,9 +21,7 @@ int main(int argc, char *argv[])
     }
     try
     {
-        RPN nn;
         RPN::evaluate(argv[1]);
-        nn.evaluate(argv[1]);
     } catch (const std::exception& e)
     {
         std::cerr << "Error: " << e.what() << std::endl;
