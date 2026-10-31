@@ -9,6 +9,10 @@
 #include <iostream>
 #include <cmath>
 #include <sstream>
+#include <iomanip>
+#include <algorithm>
+#include <cstdlib>
+#include <limits.h>
 /**
  * @brief BitcoinExchange - class that store record of bitcoin exchange_rate per date) in a sorted map .
  * @details BitcoinExchange takes a file database contain records of bitcoin store it so that later we can give evaluate the value of bitcoin base on an other file given to the function . 
@@ -22,6 +26,8 @@ class BitcoinExchange
         void init(void);
         void load(std::ifstream&);
         void process(std::ifstream &) const;
+        static unsigned long stoul(const std::string&);
+        static std::string to_string(unsigned long);
 
     public:
         static std::string DEFAULT_DB;

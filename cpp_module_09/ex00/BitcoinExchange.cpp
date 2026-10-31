@@ -71,7 +71,7 @@ BitcoinExchange::~BitcoinExchange()
 void BitcoinExchange::init(void)
 {
     std::ifstream ifs;
-    ifs.open(database_src_, std::ifstream::in);
+    ifs.open(database_src_.c_str(), std::ifstream::in);
     if (ifs.fail())
         throw BitcoinExchange::FileException();
     load(ifs);
@@ -256,7 +256,7 @@ unsigned long BitcoinExchange::deserialize_date(const std::string& date)
     yyyy = date.substr(0, pos1);
     mm = date.substr(pos1 + 1, pos2 - pos1 - 1);
     dd = date.substr(pos2 + 1);
-    return (std::stoul(yyyy) << 16) | (std::stoul(mm)   << 8)  | (std::stoul(dd));
+    return (stoul(yyyy) << 16) | (stoul(mm)   << 8)  | (stoul(dd));
 }
 
 /**
@@ -270,9 +270,9 @@ std::string BitcoinExchange::serialize_date(unsigned long val)
     unsigned long month = (val >> 8) & 0xFF;
     unsigned long day   = val & 0xFF;
 
-    std::string yyyy = std::to_string(year);
-    std::string mm   = std::to_string(month);
-    std::string dd   = std::to_string(day);
+    std::string yyyy = to_string(year);
+    std::string mm   = to_string(month);
+    std::string dd   = to_string(day);
 
     if (dd.length() < 2) dd = "0" + dd;
     if (mm.length() < 2) mm = "0" + mm;
@@ -293,7 +293,7 @@ double   BitcoinExchange::deserialize_value(const std::string& value)
 
     if (!is_valid_value(value))
         throw BitcoinExchange::BadInputException();
-    fval = std::stod(value);
+    fval = std::atof(value.c_str());
     if (std::isnan(fval) || std::isinf(fval))
         throw BitcoinExchange::BadInputException();
     return (fval);
@@ -353,8 +353,8 @@ bool BitcoinExchange::is_valid_date(const std::string& s)
         if (!std::isdigit(s[i]))
             return false;
     }
-    int month = std::stoi(s.substr(5, 2));
-    int day   = std::stoi(s.substr(8, 2));
+    int month = std::atoi(s.substr(5, 2).c_str());
+    int day   = std::atoi(s.substr(8, 2).c_str());
     if (month < 1 || month > 12) return false;
     if (day < 1) return false;
     int daysInMonth[] = {31,28,31,30,31,30,31,31,30,31,30,31};
@@ -438,5 +438,39 @@ const char *BitcoinExchange::EmptyDatabaseException::what(void) const throw()
 const char *BitcoinExchange::BadHeaderException::what(void) const throw()
 {
     return ("Bad Header => ");
+}
+
+
+
+unsigned long BitcoinExchange::stoul(const std::string& str)
+{
+    unsigned long value = 0;
+    unsigned long max = ULONG_MAX;
+    size_t len = str.length();
+    for (size_t i = 0; i < len; i++)
+    {
+        unsigned long digit = str[i] - '0';
+
+        if (value > (max - digit) / 10)
+            return max;
+        value = value * 10 + digit;
+    }
+    return (value);
+}
+
+
+std::string BitcoinExchange::to_string(unsigned long value)
+{
+    std::string res;
+    if (value == 0)
+        return "0";
+
+    while (value > 0)
+    {
+        unsigned char c = value % 10 + 48;
+        res.insert(0, 1, c);
+        value /= 10;
+    }
+    return (res);
 }
 
