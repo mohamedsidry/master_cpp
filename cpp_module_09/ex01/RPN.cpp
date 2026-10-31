@@ -138,7 +138,7 @@ void RPN::mul(std::stack<double>& st)
 void RPN::div(std::stack<double>& st)
 {
     if (st.size() < 2)
-        throw std::runtime_error("Unbalanced aaRPN expression.");
+        throw std::runtime_error("Unbalanced RPN expression.");
     double left, right;
     right = st.top();
     st.pop();
