@@ -25,7 +25,7 @@ $(OBJDIR)/%.o:%.cpp $(HPP)
 
 
 $(NAME) : $(OBJS)
-	@echo $(YELLOW) "Linking : " $(PURPLE) $< $(RESET)
+	@echo $(YELLOW) "Linking : " $(PURPLE) $^ $(RESET)
 	@$(CXX) $(CXXVERSION) $(CXXFLAGS) $(OBJS) -o $@
 
 
