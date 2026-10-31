@@ -15,8 +15,11 @@ int main(int argc, char *argv[])
     try
     {
         PmergeMe pm(argv, argc);
-        //pm.banchMarkVectorList();
-        pm.banchMarkVectorListDetailed();
+        pm.banchMarkVectorList();
+        /**
+        * NOTE: for detailed comparison between list and vector uncomment or call banchMarkVectorListDetailed method .
+        * pm.banchMarkVectorListDetailed();
+        **/
     } catch (const PmergeMe::InputException& e)
     {
         std::cerr << "Error: " << e.what() << std::endl;
